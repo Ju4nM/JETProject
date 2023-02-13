@@ -1,1 +1,114 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@flaticon/flaticon-uicons/css/all/all";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --blue: #319CFF;
+    --darkBg: #100E18;
+}
+
+/* Custom input */
+.customInput {
+    @apply w-full;
+    @apply relative;
+    @apply bg-white;
+    @apply p-2;
+    /* @apply pt-5; */
+    @apply rounded-md;
+    @apply transition-all;
+    min-width: 150px;
+    @apply overflow-hidden;
+    /* @apply overflow-ellipsis; */
+}
+
+.customInput input {
+    @apply w-full;
+    @apply h-full;
+    @apply outline-none;
+    @apply border-none;
+    background: none;
+}
+
+.customInput label {
+    @apply absolute;
+    left: 7px;
+    bottom: 8px;
+    @apply text-xl;
+    @apply transition-all;
+    @apply pointer-events-none;
+    @apply whitespace-nowrap;
+    @apply overflow-ellipsis;
+}
+
+.customInput input:focus ~ label, 
+.customInput input:valid ~ label {
+    @apply font-bold;
+    font-size: 14px;
+    transform: translateY(-70%);
+}
+
+.customInput:has(input:focus), .customInput:has(input:valid) {
+    @apply pt-5;
+}
+
+/* Simple input */
+.simpleInput {
+    @apply outline-none;
+    @apply border-none;
+    @apply bg-white;
+    @apply p-2;
+    @apply rounded-md;
+    @apply w-full;
+}
+
+
+/* Custom button */
+.customButton {
+    @apply w-full;
+    @apply p-2;
+    @apply rounded-md;
+    @apply text-lg; 
+    @apply transition-all;
+    @apply border-none;
+    @apply outline-none;
+}
+
+/* Button success */
+.buttonSuccess {
+    @apply bg-green-500;
+}
+
+.buttonSuccess:hover {
+    @apply bg-green-600;
+}
+
+.buttonSuccess:active {
+    @apply bg-green-700;
+}
+
+.buttonSuccess:focus-visible {
+    box-shadow: 0 0 5px 3px rgb(15, 133, 58);
+}
+
+/* Button danger */
+.buttonDanger {
+    @apply bg-red-500;
+}
+
+.buttonDanger:hover {
+    @apply bg-red-600;
+}
+
+.buttonDanger:active {
+    @apply bg-red-700;
+}
+
+.buttonDanger:focus-visible {
+    box-shadow: 0 0 5px 3px rgb(220, 38, 38);
+}
+
+/* Para que los iconos se mantengan al nivel del texto */
+i { @apply align-middle; }

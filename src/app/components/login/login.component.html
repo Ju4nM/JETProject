@@ -1,0 +1,23 @@
+<div class = "grid place-items-center h-screen main">
+    <div class = "md:w-3/5 sm:w-2/3 xl:w-auto flex relative xl:static flex-col p-8 bg-red-50 backdrop-blur-md login-form xl:flex-row-reverse gap-8 rounded-md drop-shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+        <div class = "absolute -top-28 left-0 right-0 xl:static">
+            <img src="./assets/img/JetLogo.png" alt="JetLogo" class = "h-48 xl:h-96 mx-auto select-none">
+        </div>
+        <div class="flex items-center flex-col pt-11">
+            <h1 class = "dark:text-white text-4xl text-center font-semibold mb-8">Inicio de sesion</h1>
+
+            <form class = "flex flex-col bg-blue-500 p-5 rounded-md gap-8 sm:w-2/3 xl:w-auto" #login="ngForm" (ngSubmit)="onSubmit(login)">
+                <div class="customInput">
+                    <input name="userName" type="text" id="user" required ngModel />
+                    <label for="user">Usuario</label>
+                </div>
+                <div class="customInput">
+                    <input name="password" type="password" id="password" required ngModel />
+                    <label for="password">Contrase&ntilde;a</label>
+                </div>
+
+                <button type="submit" class="customButton buttonSuccess">Iniciar sesion</button>
+            </form>
+        </div>
+    </div>
+</div>

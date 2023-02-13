@@ -1,0 +1,19 @@
+.main {
+	background: url("/assets/img/bg.svg") no-repeat;
+	background-size: contain;
+}
+
+.login-form {
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+
+	.main {
+		@apply bg-slate-900;
+	}
+
+	.login-form {
+		background-color: rgba(15, 23, 42, 0.7);
+	}
+}

@@ -1,0 +1,84 @@
+
+.section {
+    @apply text-xl;
+    @apply transition-all;
+}
+
+.section-active {
+    @apply text-white;
+    /* @apply border-b-white;
+    @apply border-solid;
+    @apply border-b-2; */
+    @apply relative;
+    @apply transition-all;
+}
+
+.section-active:before, .section-active:after, .section-inactive:before {
+    content: "";
+    @apply absolute;
+    @apply bottom-0;
+    height: 2px;
+    width: 0;
+    @apply transition-all;
+    @apply left-0;
+    @apply bg-white;
+}
+
+.section-active:before, .section-inactive:hover:before {
+    @apply w-full;
+}
+
+/* Only active */
+.section-active:hover:after {
+    @apply bg-blue-900;
+    @apply w-full;
+}
+
+.section-active:active {
+    @apply text-2xl;
+}
+
+/* ================================ */
+
+.section-inactive {
+    @apply text-lg;
+    @apply hover:text-gray-200;
+    @apply relative;
+}
+
+.section:active {
+    @apply text-white;
+}
+
+/* Sidebar styles */
+.sidebar {
+    animation: sidebarAnimation .4s;
+}
+
+@keyframes sidebarAnimation {
+    from {
+        left: -50%;
+    }
+
+    to {
+        left: 0;
+    }
+}
+/* End sidebar styles ===========================*/
+
+/* Overlay */
+.overlay {
+    background-color: rgba(0, 0, 0, 0.80);
+    animation: overlayAnimation .5s;
+}
+
+@keyframes overlayAnimation { 
+    from {
+        background-color: rgba(0, 0, 0, 0.0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.80);
+    }
+}
+
+/* End Overlay ============================== */
