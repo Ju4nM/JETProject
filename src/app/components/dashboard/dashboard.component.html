@@ -1,4 +1,4 @@
-<div class="h-screen w-full dark:bg-slate-900 dark:text-white">
+<div class="h-screen w-full dark:bg-slate-900 dark:text-white flex flex-col">
     <nav class = "bg-[#0085FF] font-semibolds sticky top-0 gap-5 p-4 md:p-3 flex items-center justify-between md:static">
         <button (click) = "toggleBurgerMenu()" class = "hover:text-white dark:hover:text-black active:bg-blue-400 active:text-white transition-all rounded-md px-2 py-1 pb-0 flex justify-center items-center md:hidden">
             <i class="fi fi-sr-menu-burger text-3xl"></i>
@@ -9,20 +9,23 @@
                 <button (click) = "toggleBurgerMenu()" class="bg-blue-600 p-2 px-4 rounded-md mb-4 align-middle text-start hover:bg-blue-700 transition-all active:bg-blue-800 md:hidden">
                     <i class="fi fi-sr-menu-burger text-xl text-white inline-block"></i> <span class = "font-semibold text-lg ml-4">Menu</span> 
                 </button>
-                <button (click)="changeSection(0)" class="{{sections[0].styles}}">Principal</button>
-                <button (click)="changeSection(1)" class="{{sections[1].styles}}">Usuarios</button>
-                <button (click)="changeSection(2)" class="{{sections[2].styles}}">Graficas</button>
+                <button (click)="changeSection(0)" class="{{ sections[0].styles }}">Principal</button>
+                <button (click)="changeSection(1)" class="{{ sections[1].styles }}">Usuarios</button>
+                <button (click)="changeSection(2)" class="{{ sections[2].styles }}">Graficas</button>
+                <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button>
+                <button (click)="changeSection(4)" class="{{ sections[4].styles }}">Acerca de</button>
             </div>
             <div>
                 <button (click)="logout()" class="customButton buttonDanger">Salir <i class = "fi fi-rr-exit"></i></button>
             </div>
         </div>
-        <h1 class = "text-2xl font-semibold md:hidden">{{sections[currentSection].name}}</h1>
-        <!-- <div class = "hidden md:block">
-            <button (click)="logout()" class="customButton buttonDanger">Salir <i class = "fi fi-rr-exit"></i></button>
-        </div> -->
+        <h1 class = "text-2xl font-semibold md:hidden">{{ sections[currentSection].name }}</h1>
     </nav>
-    <ng-template [ngIf]="currentSection == 0"><app-main></app-main></ng-template>
-    <ng-template [ngIf]="currentSection == 1"><app-users></app-users></ng-template>
-    <ng-template [ngIf]="currentSection == 2"><app-charts></app-charts></ng-template>
+    <div class="overflow-y-scroll h-full component-container">
+        <ng-template [ngIf]="currentSection == 0"><app-main></app-main></ng-template>
+        <ng-template [ngIf]="currentSection == 1"><app-users></app-users></ng-template>
+        <ng-template [ngIf]="currentSection == 2"><app-charts></app-charts></ng-template>
+        <ng-template [ngIf]="currentSection == 3"><app-histories></app-histories></ng-template>
+        <ng-template [ngIf]="currentSection == 4"><app-about></app-about></ng-template>
+    </div>
 </div>

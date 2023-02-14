@@ -11,11 +11,11 @@ interface Section {
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-    currentSection = 0;
+    currentSection = 4;
     sections: Section[]= [
         {
             name: "Principal",
-            styles: "section section-active"
+            styles: "section section-inactive"
         },
         {
             name: "Usuarios",
@@ -24,7 +24,15 @@ export class DashboardComponent {
         {
             name: "Graficos",
             styles: "section section-inactive"
-        }
+        },
+        {
+            name: "Historiales",
+            styles: "section section-inactive"
+        },
+        {
+            name: "Acerca de",
+            styles: "section section-active"
+        },
     ];
 
     burgerStatus: boolean = false;

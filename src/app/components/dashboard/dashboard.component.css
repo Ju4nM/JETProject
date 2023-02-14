@@ -2,6 +2,8 @@
 .section {
     @apply text-xl;
     @apply transition-all;
+    @apply outline-none;
+    @apply border-none
 }
 
 .section-active {
@@ -80,5 +82,18 @@
         background-color: rgba(0, 0, 0, 0.80);
     }
 }
-
 /* End Overlay ============================== */
+
+/* Component-container ---- Contenedor que tiene los componentes que renderiza la navbar */
+
+.component-container::-webkit-scrollbar {
+    @apply bg-none;
+    @apply w-2;
+}
+
+.component-container::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+    @apply rounded-full;
+}
+
+/*  End of Component-container */
