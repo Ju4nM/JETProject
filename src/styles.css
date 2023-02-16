@@ -10,6 +10,34 @@
     --darkBg: #100E18;
 }
 
+/* Text field */
+
+.text-field, .combo-box {
+    @apply rounded-md;
+    @apply outline-none;
+    @apply transition-all;
+    @apply text-black;
+}
+
+.text-field {
+    @apply p-2;
+}
+
+.text-field:focus {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* End Text field */
+
+/* combobox */
+
+.combo-box {
+    @apply p-1;
+    @apply w-full;
+}
+
+/* combobox's ends */
+
 /* Custom input */
 .customInput {
     @apply w-full;
@@ -19,7 +47,8 @@
     /* @apply pt-5; */
     @apply rounded-md;
     @apply transition-all;
-    min-width: 150px;
+    @apply min-w-[150px];
+    /* min-width: 150px; */
     @apply overflow-hidden;
     /* @apply overflow-ellipsis; */
 }
@@ -112,3 +141,9 @@
 
 /* Para que los iconos se mantengan al nivel del texto */
 i { @apply align-middle; }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color: black;
+    }
+}

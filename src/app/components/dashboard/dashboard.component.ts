@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-interface Section {
-    name: string;
-    styles: string;
-}
+import Section from "./Interfaces/Section.interface";
 
 @Component({
     selector: 'app-dashboard',

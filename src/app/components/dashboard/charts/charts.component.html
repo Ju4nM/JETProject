@@ -1,1 +1,41 @@
-<p>charts works!</p>
+<div class = "m-4 flex flex-col p-6 items-center gap-10">
+    <div class="bg-blue-500 p-5 rounded-lg text-black flex flex-col gap-10">
+        <span class = "font-semibold text-2xl">Periodo</span>
+        <div class = "flex gap-6">
+            <div>
+                <!-- <select class = "text-black combo-box">
+                    <option selected value="enero">Enero</option>
+                    <option value="febrero">Febrero</option>
+                    <option value="marzo">Marzo</option>
+                    <option value="abril">Abril</option>
+                    <option value="junio">Junio</option>
+                    <option value="julio">Julio</option>
+                    <option value="agosto">Agosto</option>
+                    <option value="septiembre">septiembre</option>
+                    <option value="octubre">Octubre</option>
+                    <option value="noviembre">Noviembre</option>
+                    <option value="diciembre">Diciembre</option>
+                </select> -->
+                Inicio:
+                <input type="date" class = "text-field">
+            </div>
+            <div>
+                Fin:
+                <input type="date" class = "text-field">
+            </div>
+        </div>
+        <button class = "customButton buttonSuccess">Crear grafica</button>
+    </div>
+    <div class = "bg-black-500 w-1/2 flex flex-col items-center">
+        <h1 class = "text-3xl">Periodo Enero - Febrero</h1>
+        <canvas id = "chart-0">{{ chart }}</canvas>
+    </div>
+    <div class = "bg-black-500 w-1/2 flex flex-col items-center">
+        <h1 class = "text-3xl">Periodo Enero - Febrero</h1>
+        <canvas id = "chart-1">{{ chart1 }}</canvas>
+    </div>
+    <div class = "bg-black-500 w-1/2 flex flex-col items-center">
+        <h1 class = "text-3xl">Periodo Enero - Febrero</h1>
+        <canvas id = "chart-2">{{ chart2 }}</canvas>
+    </div>
+</div>

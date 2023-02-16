@@ -12,7 +12,7 @@
                 <button (click)="changeSection(0)" class="{{ sections[0].styles }}">Principal</button>
                 <button (click)="changeSection(1)" class="{{ sections[1].styles }}">Usuarios</button>
                 <button (click)="changeSection(2)" class="{{ sections[2].styles }}">Graficas</button>
-                <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button>
+                <!-- <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button> -->
                 <button (click)="changeSection(4)" class="{{ sections[4].styles }}">Acerca de</button>
             </div>
             <div>
@@ -22,10 +22,10 @@
         <h1 class = "text-2xl font-semibold md:hidden">{{ sections[currentSection].name }}</h1>
     </nav>
     <div class="overflow-y-scroll h-full component-container">
-        <ng-template [ngIf]="currentSection == 0"><app-main></app-main></ng-template>
+        <ng-template [ngIf]="currentSection == 0"><app-control></app-control></ng-template>
         <ng-template [ngIf]="currentSection == 1"><app-users></app-users></ng-template>
         <ng-template [ngIf]="currentSection == 2"><app-charts></app-charts></ng-template>
-        <ng-template [ngIf]="currentSection == 3"><app-histories></app-histories></ng-template>
+        <!-- <ng-template [ngIf]="currentSection == 3"><app-histories></app-histories></ng-template> -->
         <ng-template [ngIf]="currentSection == 4"><app-about></app-about></ng-template>
     </div>
 </div>
