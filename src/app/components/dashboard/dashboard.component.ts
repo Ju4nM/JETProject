@@ -8,6 +8,7 @@ import Section from "./Interfaces/Section.interface";
 })
 export class DashboardComponent {
     currentSection = 4;
+    isAdmin: boolean = false;
     sections: Section[]= [
         {
             name: "Principal",
@@ -32,6 +33,11 @@ export class DashboardComponent {
     ];
 
     burgerStatus: boolean = false;
+    
+    constructor () {
+        let tipoUsuario: any = sessionStorage.getItem("tipoUsuario");
+        this.isAdmin = tipoUsuario == "0";
+    }
     
     changeSection(sectionNumber: number): void {
         if (this.currentSection == sectionNumber) return;

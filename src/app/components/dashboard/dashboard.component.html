@@ -10,7 +10,7 @@
                     <i class="fi fi-sr-menu-burger text-xl text-white inline-block"></i> <span class = "font-semibold text-lg ml-4">Menu</span> 
                 </button>
                 <button (click)="changeSection(0)" class="{{ sections[0].styles }}">Principal</button>
-                <button (click)="changeSection(1)" class="{{ sections[1].styles }}">Usuarios</button>
+                <button (click)="changeSection(1)" class="{{ sections[1].styles }} {{isAdmin ? '' : 'hidden'}}">Usuarios</button>
                 <button (click)="changeSection(2)" class="{{ sections[2].styles }}">Graficas</button>
                 <!-- <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button> -->
                 <button (click)="changeSection(4)" class="{{ sections[4].styles }}">Acerca de</button>
