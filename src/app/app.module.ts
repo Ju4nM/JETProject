@@ -10,6 +10,8 @@ import { AboutComponent } from './components/dashboard/about/about.component';
 import { HistoriesComponent } from './components/dashboard/histories/histories.component';
 import { ControlComponent } from './components/dashboard/control/control.component';
 
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +24,9 @@ import { ControlComponent } from './components/dashboard/control/control.compone
     ControlComponent
   ],
   imports: [
-    BrowserModule, FormsModule
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

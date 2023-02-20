@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import Section from "./Interfaces/Section.interface";
+import Section from "./interfaces/Section.interface";
+import States from "./interfaces/States.interface";
 
 @Component({
     selector: 'app-dashboard',
@@ -8,7 +9,6 @@ import Section from "./Interfaces/Section.interface";
 })
 export class DashboardComponent {
     currentSection = 4;
-    isAdmin: boolean = false;
     sections: Section[]= [
         {
             name: "Principal",
@@ -32,11 +32,15 @@ export class DashboardComponent {
         },
     ];
 
-    burgerStatus: boolean = false;
+    states: States = {
+        burger: false,
+        isAdmin: false,
+        userMenu: false
+    };
     
     constructor () {
         let tipoUsuario: any = sessionStorage.getItem("tipoUsuario");
-        this.isAdmin = tipoUsuario == "0";
+        this.states.isAdmin = tipoUsuario == "0";
     }
     
     changeSection(sectionNumber: number): void {
@@ -58,6 +62,6 @@ export class DashboardComponent {
     }
 
     toggleBurgerMenu () {
-        this.burgerStatus = !this.burgerStatus;
+        this.states.burger = !this.states.burger;
     }
 }

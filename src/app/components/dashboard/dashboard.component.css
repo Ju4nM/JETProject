@@ -1,6 +1,6 @@
 
 .section {
-    @apply text-xl;
+    @apply text-lg;
     @apply transition-all;
     @apply outline-none;
     @apply border-none
@@ -8,6 +8,7 @@
 
 .section-active {
     @apply text-white;
+    @apply text-xl;
     /* @apply border-b-white;
     @apply border-solid;
     @apply border-b-2; */
@@ -43,7 +44,6 @@
 /* ================================ */
 
 .section-inactive {
-    @apply text-lg;
     @apply hover:text-gray-200;
     @apply relative;
 }

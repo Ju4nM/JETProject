@@ -36,6 +36,6 @@ export class LoginComponent {
         sessionStorage.setItem("usuario", userName);
         sessionStorage.setItem("clave", password);
         sessionStorage.setItem("tipoUsuario", userName == "admin" ? "0" : "1");
-        window.location.reload();
+        window.location.href = window.location.href + "/dashboard";
     }
 }
