@@ -6,15 +6,16 @@ import { ControlComponent } from './components/dashboard/control/control.compone
 import { UsersComponent } from './components/dashboard/users/users.component';
 
 const routes: Routes = [
+  { path: "", redirectTo: "dashboard/about", pathMatch: "full" },
   { path: "dashboard/control", component: ControlComponent },
   { path: "dashboard/users", component: UsersComponent },
   { path: "dashboard/about", component: AboutComponent },
-  { path: "dashboard", component: AboutComponent },
+  // { path: "dashboard/", component: AboutComponent },
   { path: "dashboard/charts", component: ChartsComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

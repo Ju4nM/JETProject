@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from "@angular/forms";
+import { Router, RouterModule } from '@angular/router';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @Component({
     selector: 'app-login',
@@ -21,13 +23,17 @@ export class LoginComponent {
     //     window.location.reload();
     // }
 
+    constructor (
+        private router : Router
+    ) {}
+
     onSubmit(f: NgForm) {
         console.log(f.value);
         let {userName, password} = f.value;
         this.validateUser(userName, password);
     }
 
-    validateUser (userName: string, password: string) {
+    async validateUser (userName: string, password: string) {
         if (userName !== "admin" && password !== "123" || userName !== "user" && password !== "123") {
             alert("Usuario y / o contraseña incorrectas");
             return;
@@ -36,6 +42,7 @@ export class LoginComponent {
         sessionStorage.setItem("usuario", userName);
         sessionStorage.setItem("clave", password);
         sessionStorage.setItem("tipoUsuario", userName == "admin" ? "0" : "1");
-        window.location.href = window.location.href + "/dashboard";
+        await this.router.navigate(["dashboard/about"]);
+        window.location.reload();
     }
 }
