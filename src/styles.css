@@ -156,11 +156,69 @@
     box-shadow: 0 0 5px 3px rgb(29 78 216);
 }
 
+/* Button warning*/
+.button-warning {
+    @apply bg-yellow-500;
+}
+
+.button-warning:hover {
+    @apply bg-yellow-600;
+}
+
+.button-warning:active {
+    @apply bg-yellow-700;
+}
+
+.button-warning:focus-visible {
+    box-shadow: 0 0 5px 3px rgb(202 138 4);
+}
+
+/* Button warning*/
+.button-secondary {
+    @apply bg-gray-500;
+    @apply text-white;
+}
+
+.button-secondary:hover {
+    @apply bg-gray-600;
+}
+
+.button-secondary:active {
+    @apply bg-gray-700;
+}
+
+.button-secondary:focus-visible {
+    box-shadow: 0 0 5px 3px rgb(202 138 4);
+}
+
 /* Para que los iconos se mantengan al nivel del texto */
 i { @apply align-middle; }
 
 @media (prefers-color-scheme: dark) {
     body {
         color: black;
+    }
+}
+
+/* Overlay */
+.overlay {
+    @apply cursor-pointer;
+    @apply fixed;
+    @apply top-0;
+    @apply left-0;
+    @apply right-0;
+    @apply bottom-0;
+    @apply backdrop-blur-md;
+    @apply md:hidden;
+    background-color: rgba(0, 0, 0, 0.80);
+    animation: overlayAnimation 0.8s;
+}
+
+@keyframes overlayAnimation { 
+    from {
+        background-color: rgba(0, 0, 0, 0.0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.80);
     }
 }

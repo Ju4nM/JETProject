@@ -70,6 +70,14 @@
 
 /* Overlay */
 .overlay {
+    @apply cursor-pointer;
+    @apply fixed;
+    @apply top-0;
+    @apply left-0;
+    @apply right-0;
+    @apply bottom-0;
+    @apply backdrop-blur-md;
+    @apply md:hidden;
     background-color: rgba(0, 0, 0, 0.80);
     animation: overlayAnimation .5s;
 }

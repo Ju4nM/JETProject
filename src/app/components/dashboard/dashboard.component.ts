@@ -35,7 +35,7 @@ export class DashboardComponent {
     states: States = {
         burger: false,
         isAdmin: false,
-        userMenu: true
+        userMenu: false
     };
     
     constructor () {

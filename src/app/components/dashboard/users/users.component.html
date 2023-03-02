@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 m-5 gap-4" style="padding: 5cm; background-color: lightskyblue;">
+<!-- <div class="grid grid-cols-1 m-5 gap-4" style="padding: 5cm; background-color: lightskyblue;">
     <div style="display: flex;" class="text-center justify-center">
         <fieldset class="border-8 " style="border-color: dodgerblue;">
             <legend class="text-2xl">Registrar nuevo usuario</legend>
@@ -20,5 +20,46 @@
                 </div>
             </form>
         </fieldset>
+    </div>
+</div> -->
+
+<div class = "flex flex-col box-border p-2 gap-3 items-center">
+    <div class = "user-card bg-blue-500 p-2 rounded-md text-black flex flex-col gap-3 w-full max-w-2xl sm:justify-between" *ngFor="let user of userData">
+        <div class = "flex flex-col gap-3">
+            <h1 class = "font-bold text-2xl">{{user.userName}}</h1>
+            <div>
+                <p class = "text-lg"><span class = "font-bold">Nombre:</span> {{user.firstName + " " + user.firstLastName}}</p> 
+            </div>
+        </div>
+        <div class = "sm:flex sm:justify-end">
+            <div class = "flex gap-2 sm:w-3/5">
+                <button class="button button-secondary">Ver</button>
+                <button class="button button-warning">Editar <i class="fi fi-rs-edit"></i></button>
+                <button class="button button-danger">Eliminar <i class="fi fi-rs-trash"></i></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="overlay hidden">
+    <div class="user-registration-container">
+        <div class = "flex justify-between items-center text-2xl gap-5 mb-5">
+            <h1>Reigstro de usuario</h1>
+            <button><i class="fi fi-br-cross"></i></button>
+        </div>
+        <form #userRegistration="ngForm" class = "user-registration-form">
+            <input type="text" class = "text-field" name="firstName" placeholder="Primer nombre">
+            <input type="text" class = "text-field" name="firstName" placeholder="Sgundo nombre">
+            <input type="text" class = "text-field" name="firstName" placeholder="Primer apellido">
+            <input type="text" class = "text-field" name="firstName" placeholder="Segundo apellido">
+            <input type="text" class = "text-field" name="firstName" placeholder="Nombre de usuario">
+            <input type="text" class = "text-field" name="firstName" placeholder="Correo">
+            <input type="text" class = "text-field" name="firstName" placeholder="Contrase&ntilde;a">
+            <div class = "flex justify-between gap-2">
+                <button class="button button-success">Registrar</button>
+                <button class="button button-warning" (click)="userRegistration.reset()">Limpiar</button>
+            </div>
+        </form>
     </div>
 </div>

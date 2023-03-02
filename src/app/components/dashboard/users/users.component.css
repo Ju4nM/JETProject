@@ -1,0 +1,30 @@
+
+.user-registration-container {
+    @apply fixed;
+    @apply top-1/2;
+    @apply left-1/2;
+    transform: translate(-50%, -50%);
+    @apply w-full;
+    @apply bg-blue-500;
+    @apply p-5;
+}
+
+.user-registration-form {
+    @apply flex;
+    @apply flex-col;
+    @apply gap-3;
+}
+
+.user-card {
+    animation: .4s user-card-animation;
+}
+
+@keyframes user-card-animation {
+    0% {
+        transform: scale(0%);
+    }
+
+    100% {
+        transform: scale(100%);
+    }
+}

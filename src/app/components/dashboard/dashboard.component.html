@@ -4,7 +4,7 @@
         <button (click) = "toggleBurgerMenu()" class = "hover:text-white dark:hover:text-black active:bg-blue-400 active:text-white transition-all rounded-md px-2 py-1 pb-0 flex justify-center items-center md:hidden">
             <i class="fi fi-sr-menu-burger text-3xl"></i>
         </button>
-        <div (click)="toggleOverlay()" class="{{ states.burger || states.userMenu ? '' : 'hidden'}} overlay cursor-pointer fixed top-0 left-0 right-0 bottom-0 backdrop-blur-md md:hidden"></div>
+        <div (click)="toggleOverlay()" class="{{ states.burger || states.userMenu ? '' : 'hidden'}} overlay"></div>
         <div class="{{ states.burger ? '' : 'hidden md:flex'}} sidebar fixed md:z-0 md:static left-0 top-0 h-screen md:h-auto flex flex-col md:flex-row bg-blue-500 md:bg-[#00000000] box-border p-6 md:p-0 dark:text-black md:w-full md:items-center md:justify-between">
             <div class="flex flex-col gap-5 h-full md:flex-row">
                 <button (click) = "toggleBurgerMenu()" class="bg-blue-600 p-2 px-4 rounded-md mb-4 align-middle text-start hover:bg-blue-700 transition-all active:bg-blue-800 md:hidden">
