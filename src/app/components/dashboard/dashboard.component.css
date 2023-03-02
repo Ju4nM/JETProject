@@ -97,3 +97,34 @@
 }
 
 /*  End of Component-container */
+
+.user-menu{
+    /* fixed right-2 bg-gray-800 text-white transition-all rounded-md p-5 mt-3 gap-3 flex-col w-fit */
+    @apply fixed;
+    @apply top-1/2;
+    @apply left-1/2;
+    transform: translate(-50%, -50%);
+    @apply bg-gray-800;
+    @apply transition-all;
+    @apply rounded-md;
+    @apply p-5;
+    @apply mt-3;
+    @apply gap-3;
+    @apply flex-col;
+    @apply w-fit;
+    @apply md:transform-none;
+    @apply md:left-auto;
+    @apply md:top-16;
+    @apply md:right-1;
+    /* @apply z-10; */
+}
+
+.user-menu-controls {
+    /* w-72 flex items-center */
+    @apply flex;
+    @apply flex-col;
+    /* @apply items-center; */
+    @apply gap-3;
+    @apply sm:flex-row;
+    @apply sm:w-96;
+}

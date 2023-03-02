@@ -95,7 +95,7 @@
 
 
 /* Custom button */
-.customButton {
+.button {
     @apply w-full;
     @apply p-2;
     @apply rounded-md;
@@ -106,37 +106,54 @@
 }
 
 /* Button success */
-.buttonSuccess {
+.button-success{
     @apply bg-green-500;
 }
 
-.buttonSuccess:hover {
+.button-success:hover {
     @apply bg-green-600;
 }
 
-.buttonSuccess:active {
+.button-success:active {
     @apply bg-green-700;
 }
 
-.buttonSuccess:focus-visible {
+.button-success:focus-visible {
     box-shadow: 0 0 5px 3px rgb(15, 133, 58);
 }
 
 /* Button danger */
-.buttonDanger {
+.button-danger {
     @apply bg-red-500;
 }
 
-.buttonDanger:hover {
+.button-danger:hover {
     @apply bg-red-600;
 }
 
-.buttonDanger:active {
+.button-danger:active {
     @apply bg-red-700;
 }
 
-.buttonDanger:focus-visible {
+.button-danger:focus-visible {
     box-shadow: 0 0 5px 3px rgb(220, 38, 38);
+}
+
+/* Button primary */
+.button-primary {
+    @apply bg-blue-600;
+}
+
+.button-primary:hover {
+    @apply bg-blue-700;
+}
+
+.button-primary:active {
+    @apply bg-blue-800;
+}
+
+.button-primary:focus-visible {
+    box-shadow: 0 0 5px 3px rgb(29 78 216);
 }
 
 /* Para que los iconos se mantengan al nivel del texto */

@@ -35,7 +35,7 @@ export class DashboardComponent {
     states: States = {
         burger: false,
         isAdmin: false,
-        userMenu: false
+        userMenu: true
     };
     
     constructor () {
@@ -63,5 +63,22 @@ export class DashboardComponent {
 
     toggleBurgerMenu () {
         this.states.burger = !this.states.burger;
+    }
+
+    toggleOverlay() {
+        if (this.states.burger) {
+            this.toggleBurgerMenu();
+            return;
+        } 
+        if (this.states.userMenu) {
+            this.toggleUserMenu();
+            return;
+        }
+        this.toggleBurgerMenu();
+    }
+
+    toggleUserMenu () {
+        if (this.states.burger) this.toggleBurgerMenu();
+        this.states.userMenu = !this.states.userMenu
     }
 }

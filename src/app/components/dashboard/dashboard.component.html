@@ -4,8 +4,8 @@
         <button (click) = "toggleBurgerMenu()" class = "hover:text-white dark:hover:text-black active:bg-blue-400 active:text-white transition-all rounded-md px-2 py-1 pb-0 flex justify-center items-center md:hidden">
             <i class="fi fi-sr-menu-burger text-3xl"></i>
         </button>
-        <div (click)="toggleBurgerMenu()" class="{{ states.burger ? '' : 'hidden'}} z-50 overlay cursor-pointer fixed top-0 left-0 right-0 bottom-0 backdrop-blur-md md:hidden"></div>
-        <div class="{{ states.burger ? '' : 'hidden md:flex'}} z-50 sidebar fixed md:z-0 md:static left-0 top-0 h-screen md:h-auto flex flex-col md:flex-row bg-blue-500 md:bg-[#00000000] box-border p-6 md:p-0 dark:text-black md:w-full md:items-center md:justify-between">
+        <div (click)="toggleOverlay()" class="{{ states.burger || states.userMenu ? '' : 'hidden'}} overlay cursor-pointer fixed top-0 left-0 right-0 bottom-0 backdrop-blur-md md:hidden"></div>
+        <div class="{{ states.burger ? '' : 'hidden md:flex'}} sidebar fixed md:z-0 md:static left-0 top-0 h-screen md:h-auto flex flex-col md:flex-row bg-blue-500 md:bg-[#00000000] box-border p-6 md:p-0 dark:text-black md:w-full md:items-center md:justify-between">
             <div class="flex flex-col gap-5 h-full md:flex-row">
                 <button (click) = "toggleBurgerMenu()" class="bg-blue-600 p-2 px-4 rounded-md mb-4 align-middle text-start hover:bg-blue-700 transition-all active:bg-blue-800 md:hidden">
                     <i class="fi fi-sr-menu-burger text-xl text-white inline-block"></i> <span class = "font-semibold text-lg ml-4">Menu</span> 
@@ -17,18 +17,18 @@
                 <button class="section section-inactive" routerLink="dashboard/about" routerLinkActive="section-active">Acerca de</button>
             </div>
             <div class = "relative">
-                <!-- <button (click)="logout()" class="customButton buttonDanger">Salir <i class = "fi fi-rr-exit"></i></button> -->
-                <button (click)="states.userMenu = !states.userMenu" class = "rounded-full bg-white flex gap-4 items-center box-border p-1 px-3 hover:bg-gray-200 transition-all active:bg-gray-300"><span class = "font-medium">Tomas</span> <i class="fi fi-rs-user text-3xl mt-1"></i></button>
-                <div class = "fixed right-2 bg-gray-800 text-white transition-all rounded-md p-5 mt-3 gap-3 flex-col w-fit {{ states.userMenu ? 'flex' : 'hidden' }}">
-                    <div class = "flex gap-2 items-center">
-                        <span class = "text-xl">Rol: </span>
-                        <span class = "bg-slate-900 rounded-full p-2 px-3 text-lg w-fit">{{ states.isAdmin ? "Administrador" : "Empleado" }}</span>
-                    </div>
-                    <div class = "w-72 flex items-center">
-                        <button class = "bg-blue-600 h-full p-2 rounded-l-md w-full outline-none hover:bg-blue-700 active:bg-blue-800 transition-all"><i class="fi fi-ss-bells"></i> Notificaciones</button>
-                        <button (click)="logout()" class="bg-red-500 h-full p-2 rounded-r-md w-full outline-none hover:bg-red-600 transition-all active:bg-red-700">Salir <i class = "fi fi-rr-exit"></i></button>
-                    </div>
-                </div>
+                <button (click)="toggleUserMenu()" class = "rounded-full bg-white flex gap-4 items-center box-border p-1 px-3 hover:bg-gray-200 transition-all active:bg-gray-300"><span class = "font-medium">Tomas</span> <i class="fi fi-rs-user text-3xl mt-1"></i></button>
+            </div>
+        </div>
+        <div class = "user-menu {{ states.userMenu ? 'flex' : 'hidden' }}">
+            <div class = "flex gap-2 items-center">
+                <span class = "text-xl">Rol: </span>
+                <span class = "bg-slate-900 rounded-full p-2 px-3 text-lg w-fit">{{ states.isAdmin ? "Administrador" : "Empleado" }}</span>
+            </div>
+            <div class = "user-menu-controls">
+                <button class = "button button-primary"><i class="fi fi-ss-bells"></i> Notificaciones</button>
+                <!-- <button (click)="logout()" class="bg-red-500 h-full p-2 rounded-r-md w-full outline-none hover:bg-red-600 transition-all active:bg-red-700">Salir <i class = "fi fi-rr-exit"></i></button> -->
+                <button (click)="logout()" class="button button-danger">Salir <i class = "fi fi-rr-exit"></i></button>
             </div>
         </div>
         <h1 class = "text-2xl font-semibold md:hidden">{{ sections[currentSection].name }}</h1>
