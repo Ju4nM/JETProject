@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './components/dashboard/about/about.component';
-import { ChartsComponent } from './components/dashboard/charts/charts.component';
-import { ControlComponent } from './components/dashboard/control/control.component';
-import { UsersComponent } from './components/dashboard/users/users.component';
+import { DashboardModule } from './components/dashboard/dashboard.module';
+import { LoginComponent } from './components/login/login.component';
+import { TodayChartComponent } from './components/today-chart/today-chart.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "dashboard/about", pathMatch: "full" },
-  { path: "dashboard/control", component: ControlComponent },
-  { path: "dashboard/users", component: UsersComponent },
-  { path: "dashboard/about", component: AboutComponent },
-  // { path: "dashboard/", component: AboutComponent },
-  { path: "dashboard/charts", component: ChartsComponent }
+  { path: "login", component: LoginComponent},
+  {
+    path: "dashboard",
+    loadChildren: () => import("./components/dashboard/dashboard.module").then(module => DashboardModule)
+  },
+  { path: "today-chart", component: TodayChartComponent },
+  { path: "**", redirectTo: "login" },
 ];
 
 @NgModule({

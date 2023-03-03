@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import Section from "./interfaces/Section.interface";
 import States from "./interfaces/States.interface";
 
@@ -38,9 +39,16 @@ export class DashboardComponent {
         userMenu: false
     };
     
-    constructor () {
+    constructor (
+        private router: Router
+    ) {
         let tipoUsuario: any = sessionStorage.getItem("tipoUsuario");
         this.states.isAdmin = tipoUsuario == "0";
+    }
+
+    async ngOnInit() {
+        let user = sessionStorage.getItem("usuario");
+        if (!user) this.router.navigate(["login"]);
     }
     
     changeSection(sectionNumber: number): void {

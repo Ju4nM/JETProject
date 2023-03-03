@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -8,7 +9,17 @@ import { Component } from '@angular/core';
 export class AppComponent {
     user: any;
 
-    constructor() {
+    constructor(
+        private router: Router
+    ) {
+    }
+
+    async ngOnInit () {
         this.user = sessionStorage.getItem("usuario");
+        if (this.user) {
+            await this.router.navigate(["dashboard"]);
+        } else {
+            await this.router.navigate(["login"]);
+        }
     }
 }
