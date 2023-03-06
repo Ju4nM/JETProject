@@ -27,6 +27,11 @@ export class LoginComponent {
         private router : Router
     ) {}
 
+    ngOnInit () {
+        let user = sessionStorage.getItem("usuario");
+        if (user) this.router.navigate(["dashboard"]);
+    }
+
     onSubmit(f: NgForm) {
         console.log(f.value);
         let {userName, password} = f.value;
@@ -42,7 +47,7 @@ export class LoginComponent {
         sessionStorage.setItem("usuario", userName);
         sessionStorage.setItem("clave", password);
         sessionStorage.setItem("tipoUsuario", userName == "admin" ? "0" : "1");
-        await this.router.navigate(["dashboard/about"]);
+        await this.router.navigate(["dashboard"]);
         window.location.reload();
     }
 }

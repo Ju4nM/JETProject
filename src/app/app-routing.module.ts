@@ -6,11 +6,11 @@ import { TodayChartComponent } from './components/today-chart/today-chart.compon
 
 const routes: Routes = [
   { path: "login", component: LoginComponent},
+  { path: "today-chart", component: TodayChartComponent },
   {
     path: "dashboard",
     loadChildren: () => import("./components/dashboard/dashboard.module").then(module => DashboardModule)
   },
-  { path: "today-chart", component: TodayChartComponent },
   { path: "**", redirectTo: "login" },
 ];
 

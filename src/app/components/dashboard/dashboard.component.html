@@ -1,20 +1,20 @@
 <div class="h-screen w-full dark:bg-slate-900 dark:text-white flex flex-col">
 <!-- <div class="h-screen w-full dark:text-white flex flex-col"> -->
-    <nav #navbar class = "bg-[#0085FF] font-semibolds sticky top-0 gap-5 p-4 md:p-3 flex items-center justify-between md:static">
+    <nav #navbar class = "bg-[#0085FF] font-semibolds sticky z-50 top-0 gap-5 p-4 md:p-3 flex items-center justify-between md:static">
         <button (click) = "toggleBurgerMenu()" class = "hover:text-white dark:hover:text-black active:bg-blue-400 active:text-white transition-all rounded-md px-2 py-1 pb-0 flex justify-center items-center md:hidden">
             <i class="fi fi-sr-menu-burger text-3xl"></i>
         </button>
-        <div (click)="toggleOverlay()" class="{{ states.burger || states.userMenu ? '' : 'hidden'}} overlay"></div>
-        <div class="{{ states.burger ? '' : 'hidden md:flex'}} sidebar fixed md:z-0 md:static left-0 top-0 h-screen md:h-auto flex flex-col md:flex-row bg-blue-500 md:bg-[#00000000] box-border p-6 md:p-0 dark:text-black md:w-full md:items-center md:justify-between">
+        <div (click)="toggleOverlay()" class="{{ states.burger || states.userMenu ? '' : 'hidden'}} overlay md:hidden"></div>
+        <div class="{{ states.burger ? '' : 'hidden md:flex'}} sidebar fixed md:static left-0 top-0 h-screen md:h-auto flex flex-col md:flex-row bg-blue-500 md:bg-[#00000000] box-border p-6 md:p-0 dark:text-black md:w-full md:items-center md:justify-between">
             <div class="flex flex-col gap-5 h-full md:flex-row">
                 <button (click) = "toggleBurgerMenu()" class="bg-blue-600 p-2 px-4 rounded-md mb-4 align-middle text-start hover:bg-blue-700 transition-all active:bg-blue-800 md:hidden">
                     <i class="fi fi-sr-menu-burger text-xl text-white inline-block"></i> <span class = "font-semibold text-lg ml-4">Menu</span> 
                 </button>
-                <button class="section section-inactive" routerLink="control" routerLinkActive="section-active">Principal</button>
-                <button class="section section-inactive {{states.isAdmin ? '' : 'hidden'}}" routerLink="users" routerLinkActive="section-active">Usuarios</button>
-                <button class="section section-inactive" routerLink="charts" routerLinkActive="section-active">Graficas</button>
+                <button (click)="changeSection('Control')" class="section section-inactive" routerLink="control" routerLinkActive="section-active">Control</button>
+                <button (click)="changeSection('Usuarios')" class="section section-inactive {{states.isAdmin ? '' : 'hidden'}}" routerLink="users" routerLinkActive="section-active">Usuarios</button>
+                <button (click)="changeSection('Graficas')" class="section section-inactive" routerLink="charts" routerLinkActive="section-active">Graficas</button>
                 <!-- <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button> -->
-                <button class="section section-inactive" routerLink="about" routerLinkActive="section-active">Acerca de</button>
+                <button (click)="changeSection('Acerca de')" class="section section-inactive" routerLink="about" routerLinkActive="section-active">Acerca de</button>
             </div>
             <div class = "relative">
                 <button (click)="toggleUserMenu()" class = "rounded-full bg-white flex gap-4 items-center box-border p-1 px-3 hover:bg-gray-200 transition-all active:bg-gray-300"><span class = "font-medium">Tomas</span> <i class="fi fi-rs-user text-3xl mt-1"></i></button>
@@ -31,7 +31,7 @@
                 <button (click)="logout()" class="button button-danger">Salir <i class = "fi fi-rr-exit"></i></button>
             </div>
         </div>
-        <h1 class = "text-2xl font-semibold md:hidden">{{ sections[currentSection].name }}</h1>
+        <h1 class = "text-2xl font-semibold md:hidden">{{ currentSection }}</h1>
     </nav>
     <div class="overflow-y-scroll h-full component-container">
         <!-- <ng-template [ngIf]="currentSection == 0"><app-control></app-control></ng-template>

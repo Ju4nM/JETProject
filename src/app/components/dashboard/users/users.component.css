@@ -1,22 +1,46 @@
 
 .user-registration-container {
-    @apply fixed;
-    @apply top-1/2;
-    @apply left-1/2;
-    transform: translate(-50%, -50%);
     @apply w-full;
     @apply bg-blue-500;
     @apply p-5;
+    @apply fixed;
+    @apply left-1/2;
+    @apply top-1/2;
+    @apply overflow-scroll; 
+    @apply sm:overflow-auto;
+    @apply h-4/5;
+    @apply sm:h-auto;
+    @apply md:max-w-2xl;
+    @apply md:rounded-md;
+    transform: translate(-50%, -45%);
+    /* animation: .8s user-card-animation; */
+}
+
+.user-registration-container::-webkit-scrollbar {
+    @apply bg-none;
+    @apply w-2;
+}
+
+.user-registration-container::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+    @apply rounded-full;
+}
+
+.user-registration-container::-webkit-scrollbar-corner {
+    @apply bg-none;
+    @apply border-none;
 }
 
 .user-registration-form {
     @apply flex;
     @apply flex-col;
     @apply gap-3;
+    @apply sm:grid;
+    @apply sm:grid-cols-2;
 }
 
 .user-card {
-    animation: .4s user-card-animation;
+    animation: .5s user-card-animation;
 }
 
 @keyframes user-card-animation {
@@ -27,4 +51,17 @@
     100% {
         transform: scale(100%);
     }
+}
+
+.user-registration-form > div {
+    /* flex-col flex */
+    @apply flex;
+    @apply flex-col;
+}
+
+.user-registration-form > div > label > span {
+    /* text-red-500 text-lg font-bold" */
+    @apply text-red-500;
+    @apply text-lg;
+    @apply font-bold;
 }

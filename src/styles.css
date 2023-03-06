@@ -209,7 +209,6 @@ i { @apply align-middle; }
     @apply right-0;
     @apply bottom-0;
     @apply backdrop-blur-md;
-    @apply md:hidden;
     background-color: rgba(0, 0, 0, 0.80);
     animation: overlayAnimation 0.8s;
 }
@@ -220,5 +219,27 @@ i { @apply align-middle; }
     }
     to {
         background-color: rgba(0, 0, 0, 0.80);
+    }
+}
+
+/* Spinner */
+.spinner {
+    @apply border-4;
+    @apply border-[#0000004a];
+    @apply border-r-[#fff];
+    @apply border-b-[#fff];
+    @apply w-7;
+    @apply h-7;
+    @apply rounded-full;
+    animation: linear spinner-animation .5s infinite;
+}
+
+@keyframes spinner-animation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }

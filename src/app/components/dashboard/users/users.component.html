@@ -1,65 +1,96 @@
-<!-- <div class="grid grid-cols-1 m-5 gap-4" style="padding: 5cm; background-color: lightskyblue;">
-    <div style="display: flex;" class="text-center justify-center">
-        <fieldset class="border-8 " style="border-color: dodgerblue;">
-            <legend class="text-2xl">Registrar nuevo usuario</legend>
-            <form action="" class="p-8">
-                <div class="flex flex-col">
-                    <label class="text-justify">Nombre</label>
-                    <input type="text" placeholder="Ingrese el nombre" style="height: 40px; width: 500px;" class = "text-field" />
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-justify">Nombre Usuario</label>
-                    <input type="text" placeholder="Ingrese nombre usuario" style="height: 40px; width: 500px;" class = "text-field" />
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-justify">Contraseña</label>
-                    <input type="text" style="height: 40px; width: 500px;" class = "text-field" placeholder="Contrase&ntilde;a" />
-                </div>
-                <div class="col-auto" style="padding: 1cm;">
-                    <button type="submit" class="btn btn-outline-success">Registrar</button>
-                </div>
-            </form>
-        </fieldset>
-    </div>
-</div> -->
-
 <div class = "flex flex-col box-border p-2 gap-3 items-center">
-    <div class = "user-card bg-blue-500 p-2 rounded-md text-black flex flex-col gap-3 w-full max-w-2xl sm:justify-between" *ngFor="let user of userData">
-        <div class = "flex flex-col gap-3">
-            <h1 class = "font-bold text-2xl">{{user.userName}}</h1>
-            <div>
-                <p class = "text-lg"><span class = "font-bold">Nombre:</span> {{user.firstName + " " + user.firstLastName}}</p> 
+    <div class = "w-full rounded-md flex flex-col gap-3 sm:bg-blue-500 p-3 mb-5 sm:max-w-2xl">
+        <div class="flex gap-2">
+            <input type="text" class="text-field w-full" placeholder="Usuario">
+            <div class = "w-1/4">
+                <button class="button button-primary"><i class="fi fi-br-search"></i></button>
             </div>
         </div>
-        <div class = "sm:flex sm:justify-end">
-            <div class = "flex gap-2 sm:w-3/5">
-                <button class="button button-secondary">Ver</button>
-                <button class="button button-warning">Editar <i class="fi fi-rs-edit"></i></button>
-                <button class="button button-danger">Eliminar <i class="fi fi-rs-trash"></i></button>
-            </div>
-        </div>
+        <button (click)="toggleRegistrationForm()" class="button button-success">Agregar <i class="fi fi-br-plus"></i></button>
     </div>
+    <span class = "spinner {{states.spinner ? '' : 'hidden'}}"></span>
+    <div class = "flex w-full justify-center">
+        
+        <div class = "grid w-full place-items-center md:grid-cols-2 lg:grid-cols-{{userData.length > 3 ? 3 : userData.length}} gap-3 md:place-content-center max-w-6xl">
+            <div class = "bg-blue-500 rounded-md p-3 text-black w-full flex flex-col sm:flex-row sm:justify-between gap-3 max-w-lg" *ngFor="let user of userData">
+                <div class="flex flex-col">
+                    <h1 class = "text-3xl font-semibold">{{user.userName}}</h1>
+                    <p><span class = "font-bold">Nombre:</span> {{user.firstName}} {{user.firstLastName}}</p>
+                </div>
+                <div class = "flex gap-5 sm:flex-col sm:w-1/4">
+                    <button class="button button-primary">Ver</button>
+                    <button class="button button-danger" (click)="deleteUser(user._id)">Eliminar</button>
+                </div>
+            </div>
+        </div>
 
+    </div>
 </div>
 
-<div class="overlay hidden">
-    <div class="user-registration-container">
-        <div class = "flex justify-between items-center text-2xl gap-5 mb-5">
-            <h1>Reigstro de usuario</h1>
-            <button><i class="fi fi-br-cross"></i></button>
+<div class="overlay {{ states.userForm || states.formErrors ? '' : 'hidden'}}">
+</div>
+<div class="user-registration-container {{ states.userForm ? '' : 'hidden'}}">
+    <div class = "flex justify-between items-center text-2xl gap-5 mb-5">
+        <h1>Reigstro de usuario</h1>
+        <button (click)="toggleRegistrationForm()"><i class="fi fi-br-cross"></i></button>
+    </div>
+    <form #userRegistration="ngForm" class = "user-registration-form" (ngSubmit)="registerUser(userRegistration)">
+        <div>
+            <label for="firstName">Primer nombre <span>*</span></label>
+            <input type="text" class = "text-field" name = "firstName" placeholder="Primer nombre" ngModel>
         </div>
-        <form #userRegistration="ngForm" class = "user-registration-form">
-            <input type="text" class = "text-field" name="firstName" placeholder="Primer nombre">
-            <input type="text" class = "text-field" name="firstName" placeholder="Sgundo nombre">
-            <input type="text" class = "text-field" name="firstName" placeholder="Primer apellido">
-            <input type="text" class = "text-field" name="firstName" placeholder="Segundo apellido">
-            <input type="text" class = "text-field" name="firstName" placeholder="Nombre de usuario">
-            <input type="text" class = "text-field" name="firstName" placeholder="Correo">
-            <input type="text" class = "text-field" name="firstName" placeholder="Contrase&ntilde;a">
-            <div class = "flex justify-between gap-2">
-                <button class="button button-success">Registrar</button>
-                <button class="button button-warning" (click)="userRegistration.reset()">Limpiar</button>
+
+        <div>
+            <label for="firstName">Segundo nombre </label>
+            <input type="text" class = "text-field" name = "secondName" placeholder="Sgundo nombre" ngModel>
+        </div>
+
+        <div>
+            <label for="firstName">Primer apellido <span>*</span></label>
+            <input type="text" class = "text-field" name = "firstLastName" placeholder="Primer apellido" ngModel>
+        </div>
+
+        <div>
+            <label for="firstName">Segundo apellido <span>*</span></label>
+            <input type="text" class = "text-field" name = "secondLastName" placeholder="Segundo apellido" ngModel>
+        </div>
+
+        <div>
+            <label for="firstName">Nombre de usuario <span>*</span></label>
+            <input type="text" class = "text-field" name = "userName" placeholder="Nombre de usuario" ngModel>
+        </div>
+
+        <div>
+            <label for="firstName">Correo <span></span></label>
+            <input type="text" class = "text-field" name = "email"  placeholder="Correo" ngModel>
+        </div>
+
+        <div>
+            <label for="firstName">Contrase&ntilde;a <span>*</span></label>
+            <input type="password" class = "text-field" name="password" placeholder="Contrase&ntilde;a" ngModel>
+        </div>
+
+        <div>
+            <label for="firstName">Repita la contrase&ntilde;a <span>*</span></label>
+            <input type="password" class = "text-field" name="passwordRepeated" placeholder="Repita contrase&ntilde;a" ngModel>
+        </div>
+        <div class = "col-span-full flex justify-between gap-2 mt-5">
+            <button class="button button-success" type="submit">Registrar</button>
+            <button class="button button-warning" type="reset">Limpiar</button>
+        </div>
+    </form>
+</div>
+
+<div class="{{states.formErrors ? '' : 'hidden'}} fixed left-0 right-0 top-0 bottom-0 grid place-items-center">
+    <div class = "rounded-md p-4 bg-blue-500 text-black">
+        <div class="flex flex-col">
+            <div class = "flex gap-5 items-center justify-between mb-3">
+                <h1 class = "text-xl font-bold">Ha habido problemas</h1>
+                <button (click)="toggleFormErrors()" class = "cursor-pointer"><i class="fi fi-br-cross"></i></button>
             </div>
-        </form>
+            <div>
+                <span class = "block" *ngFor="let error of registrationErrors">- {{error}}</span>
+            </div>
+        </div>
     </div>
 </div>
