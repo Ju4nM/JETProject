@@ -13,6 +13,18 @@
     @apply flex;
     @apply flex-col;
     @apply gap-3;
+    @apply sm:grid;
+    @apply sm:grid-cols-2;
+}
+
+.user-registration-form > div:has(label) {
+    @apply flex;
+    @apply flex-col;
+}
+
+.user-registration-form > div > label > span {
+    @apply text-lg;
+    @apply text-red-500;
 }
 
 .user-card {

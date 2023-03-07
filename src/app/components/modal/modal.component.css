@@ -1,0 +1,58 @@
+
+.modal-background {
+    @apply fixed;
+    @apply top-0;
+    @apply left-0;
+    @apply right-0;
+    @apply bottom-0;
+    z-index: 9999;
+    /* @apply grid; */
+    @apply place-items-center;
+    @apply backdrop-blur-md;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-body {
+    @apply w-full;
+    animation: .5s modal-animation;
+    transition: all .3s;
+}
+
+.modal-header {
+    @apply bg-blue-500;
+    @apply flex;
+    @apply justify-between;
+    @apply items-center;
+    @apply p-6;
+    @apply sm:rounded-t-md;
+}
+
+.modal-content {
+    @apply bg-white;
+    @apply p-6;
+    @apply sm:rounded-b-md;
+    @apply dark:bg-slate-800;
+    @apply dark:text-white;
+    @apply max-h-[500px];
+    @apply overflow-auto;
+}
+
+.modal-content::-webkit-scrollbar {
+    @apply bg-none;
+    @apply w-2;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+    @apply rounded-full;
+}
+
+@keyframes modal-animation {
+    0% {
+        transform: translateY(-100vh);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

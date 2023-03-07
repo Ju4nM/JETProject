@@ -1,0 +1,13 @@
+<div class="modal-background {{isVisible == true ? 'grid' : 'hidden'}}" #modalBackground>
+    <div class="modal-body max-w-{{maxWidth}}" #modalBody>
+        <div class="modal-header">
+            <h1 class = "text-3xl font-bold align-middle">{{title}}</h1>
+            <ng-container *ngIf="!isPrompt">
+                <span class = "text-3xl cursor-pointer ml-3" (click)="hidden()"><i class="fi fi-br-cross"></i></span>
+            </ng-container>
+        </div>
+        <div class="modal-content">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

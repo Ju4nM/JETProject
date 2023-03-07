@@ -12,6 +12,7 @@ import { ControlComponent } from './components/dashboard/control/control.compone
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CommonModule } from '@angular/common';
     ChartsComponent,
     AboutComponent,
     HistoriesComponent,
-    ControlComponent
+    ControlComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

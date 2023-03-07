@@ -1,6 +1,6 @@
 
 export default interface User {
-    firstName: string;
+    names: string;
     secondName: string;
     firstLastName: string;
     secondLastName: string;
