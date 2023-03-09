@@ -8,27 +8,14 @@
         </div>
         <button class = "button button-success" (click)="modalForm.toggle()">Agregar <i class="fi fi-br-plus"></i></button>
     </div>
-    
-    <div class = "flex flex-col w-full items-center gap-7">
-        <div class = "user-card bg-blue-500 p-2 rounded-md text-black flex flex-col gap-3 w-full max-w-2xl sm:justify-between" *ngFor="let user of userData">
-            <div class = "flex flex-col gap-3">
-                <h1 class = "font-bold text-2xl">{{user.userName}}</h1>
-                <div>
-                    <p class = "text-lg"><span class = "font-bold">Nombre:</span> {{user.names}}</p> 
-                </div>
-            </div>
-            <div class = "sm:flex sm:justify-end">
-                <div class = "flex gap-2 sm:w-3/5">
-                    <button class="button button-warning">Editar <i class="fi fi-rs-edit"></i></button>
-                    <button class="button button-danger">Eliminar <i class="fi fi-rs-trash"></i></button>
-                </div>
-            </div>
-        </div>
+    <!-- <div class = "spinner {{!dataIsLoaded ? '' : 'hidden'}}"></div> -->
+    <div class = "flex flex-col w-full gap-7">
+        <app-user-card [user]="user" *ngFor="let user of userData" class = "user-card"></app-user-card>
     </div>
 </div>
 
 <app-modal [maxWidth]="'2xl'" [title]="'Registro de usuario'" #modalForm>
-    <form #userRegistration="ngForm" class = "user-registration-form">
+    <form #userRegistration="ngForm" class = "user-registration-form" (ngSubmit)="registerUser(userRegistration)">
         <div>
             <label for="firstName">Nombre(s) <span>*</span></label>
             <input type="text" class = "text-field" id="firstName" name="names" placeholder="Primer nombre" ngModel>
@@ -59,7 +46,15 @@
         </div>
         <div class = "flex justify-between gap-2 sm:col-span-2">
             <button class="button button-warning" type="reset">Limpiar</button>
-            <button class="button button-success">Registrar</button>
+            <button class="button button-success" type="submit">Registrar</button>
         </div>
     </form>
 </app-modal>
+
+<app-modal #formErrorsModal [title] = "'Errores en el registro'">
+    <div class = "text-lg">
+        <p *ngFor="let error of registrationErrors">- {{error}}</p>
+    </div>
+</app-modal>
+
+<app-loading-spinner class="{{isLoading ? '' : 'hidden'}}"></app-loading-spinner>

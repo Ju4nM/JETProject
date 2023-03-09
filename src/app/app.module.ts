@@ -13,6 +13,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
+import { UserCardComponent } from './components/dashboard/users/user-card/user-card.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ModalComponent } from './components/modal/modal.component';
     AboutComponent,
     HistoriesComponent,
     ControlComponent,
-    ModalComponent
+    ModalComponent,
+    UserCardComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

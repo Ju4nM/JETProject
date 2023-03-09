@@ -1,0 +1,33 @@
+.spinner-background {
+    @apply fixed;
+    @apply top-0;
+    @apply left-0;
+    @apply right-0;
+    @apply bottom-0;
+    @apply grid;
+    @apply place-items-center;
+    @apply z-[9999];
+    @apply backdrop-blur-md;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.spinner {
+    @apply bg-none;
+    @apply border-gray-600;
+    @apply border-b-white;
+    @apply border-l-white;
+    @apply border-4;
+    @apply h-14;
+    @apply w-14;
+    @apply rounded-full;
+    animation: .5s spinner-animation infinite linear;
+}
+
+@keyframes spinner-animation {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

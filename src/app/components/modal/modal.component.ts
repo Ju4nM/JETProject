@@ -23,6 +23,8 @@ export class ModalComponent {
   ngAfterViewInit () {
     this.modal = this.modalElement.nativeElement;
 
+    // this.renderer.addClass(this.modal, `max-w-${this.maxWidth}`);
+    
     this.renderer.listen(this.modalBg.nativeElement, "click", e => {
       if (this.modalBg.nativeElement == e.target) this.hidden();
     });

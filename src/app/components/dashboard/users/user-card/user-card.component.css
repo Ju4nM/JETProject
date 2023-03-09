@@ -1,0 +1,30 @@
+
+.user-info {
+    transform: translateY(-6px);
+}
+
+.user-info > .info > div {
+    @apply flex;
+    @apply flex-col;
+    @apply sm:flex-row;
+    @apply sm:gap-3;
+}
+
+.user-info > .info > div > p {
+    @apply font-bold;
+}
+
+.info div span {
+    @apply indent-3;
+    @apply sm:indent-0;
+}
+
+.user-info::-webkit-scrollbar {
+    @apply bg-none;
+    @apply w-2;
+}
+
+.user-info::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+    @apply rounded-full;
+}

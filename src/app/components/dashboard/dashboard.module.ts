@@ -6,9 +6,7 @@ import { UserCardComponent } from './users/user-card/user-card.component';
 
 
 @NgModule({
-  declarations: [
-    UserCardComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     DashboardRoutingModule

@@ -1,1 +1,34 @@
-<p>user-card works!</p>
+<div class="text-black w-full max-w-2xl mx-auto">
+    <div class = "rounded-md bg-blue-500 p-3 w-full relative z-10 select-none" #cardHeader>
+        <div class="flex justify-between gap-4 items-center mb-4">
+            <h1 class="font-bold text-2xl">{{ user.userName }}</h1>
+            <span class="cursor-pointer transition-all" #showButton><i class="fi fi-br-angle-down"></i></span>
+        </div>
+        <div class = "flex justify-start">
+            <button class="button button-danger max-w-fit">Eliminar <i class="fi fi-rs-trash"></i></button>
+        </div>
+    </div>
+    <div #userInfo class="user-info overflow-y-hidden w-full bg-blue-600 rounded-b-md {{isShown ? 'p-3 pt-4 h-56' : 'h-0'}} transition-all text-lg flex flex-col justify-between gap-4 mx-auto">
+        <div class = "info">
+            <div>
+                <p>Nombre de usuario: </p>
+                <span>{{user.userName}}</span>
+            </div>
+            <div>
+                <p>Nombres: </p>
+                <span>{{user.names}}</span>
+            </div>
+            <div>
+                <p>Apellidos: </p>
+                <span>{{user.firstLastName}} {{user.secondLastName}}</span>
+            </div>
+            <div>
+                <p>Corre electronico: </p>
+                <span>{{user.email}}</span>
+            </div>
+        </div>
+        <div>
+            <button class="button button-warning" >Editar</button>
+        </div>
+    </div>
+</div>

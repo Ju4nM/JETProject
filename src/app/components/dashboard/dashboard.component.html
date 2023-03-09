@@ -23,7 +23,7 @@
         <div class = "user-menu {{ states.userMenu ? 'flex' : 'hidden' }}">
             <div class = "flex gap-2 items-center">
                 <span class = "text-xl">Rol: </span>
-                <span class = "bg-slate-900 rounded-full p-2 px-3 text-lg w-fit">{{ states.isAdmin ? "Administrador" : "Empleado" }}</span>
+                <span class = "bg-slate-900 text-white rounded-full p-2 px-3 text-lg w-fit">{{ states.isAdmin ? "Administrador" : "Empleado" }}</span>
             </div>
             <div class = "user-menu-controls">
                 <button class = "button button-primary"><i class="fi fi-ss-bells"></i> Notificaciones</button>
