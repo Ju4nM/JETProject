@@ -10,7 +10,7 @@
     </div>
     <!-- <div class = "spinner {{!dataIsLoaded ? '' : 'hidden'}}"></div> -->
     <div class = "flex flex-col w-full gap-7">
-        <app-user-card [user]="user" *ngFor="let user of userData" class = "user-card"></app-user-card>
+        <app-user-card [user]="user" *ngFor="let user of userData" [deleteUserHandler]="(deleteUser)" class = "user-card"></app-user-card>
     </div>
 </div>
 
@@ -58,3 +58,5 @@
 </app-modal>
 
 <app-loading-spinner class="{{isLoading ? '' : 'hidden'}}"></app-loading-spinner>
+
+<app-modal [title]="'Confirmacion'" [promptMode]="true" #modalConfirm></app-modal>

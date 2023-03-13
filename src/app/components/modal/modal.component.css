@@ -13,7 +13,7 @@
 }
 
 .modal-body {
-    @apply w-full;
+    /* @apply w-full; */
     animation: .5s modal-animation;
     transition: all .3s;
 }
@@ -30,7 +30,6 @@
 .modal-content {
     @apply bg-white;
     @apply p-6;
-    @apply sm:rounded-b-md;
     @apply dark:bg-slate-800;
     @apply dark:text-white;
     @apply max-h-[500px];

@@ -11,19 +11,19 @@
                     <i class="fi fi-sr-menu-burger text-xl text-white inline-block"></i> <span class = "font-semibold text-lg ml-4">Menu</span> 
                 </button>
                 <button class="section section-inactive" routerLink="control" routerLinkActive="section-active">Principal</button>
-                <button class="section section-inactive {{states.isAdmin ? '' : 'hidden'}}" routerLink="users" routerLinkActive="section-active">Usuarios</button>
+                <button class="section section-inactive {{userInfo.userType ? '' : 'hidden'}}" routerLink="users" routerLinkActive="section-active">Usuarios</button>
                 <button class="section section-inactive" routerLink="charts" routerLinkActive="section-active">Graficas</button>
                 <!-- <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button> -->
                 <button class="section section-inactive" routerLink="about" routerLinkActive="section-active">Acerca de</button>
             </div>
             <div class = "relative">
-                <button (click)="toggleUserMenu()" class = "rounded-full bg-white flex gap-4 items-center box-border p-1 px-3 hover:bg-gray-200 transition-all active:bg-gray-300"><span class = "font-medium">Tomas</span> <i class="fi fi-rs-user text-3xl mt-1"></i></button>
+                <button (click)="toggleUserMenu()" class = "rounded-full bg-white flex gap-4 items-center box-border p-1 px-3 hover:bg-gray-200 transition-all active:bg-gray-300"><span class = "font-medium">{{userInfo.userName}}</span> <i class="fi fi-rs-user text-3xl mt-1"></i></button>
             </div>
         </div>
         <div class = "user-menu {{ states.userMenu ? 'flex' : 'hidden' }}">
             <div class = "flex gap-2 items-center">
                 <span class = "text-xl">Rol: </span>
-                <span class = "bg-slate-900 text-white rounded-full p-2 px-3 text-lg w-fit">{{ states.isAdmin ? "Administrador" : "Empleado" }}</span>
+                <span class = "bg-slate-900 text-white rounded-full p-2 px-3 text-lg w-fit">{{ userInfo.userType ? "Administrador" : "Empleado" }}</span>
             </div>
             <div class = "user-menu-controls">
                 <button class = "button button-primary"><i class="fi fi-ss-bells"></i> Notificaciones</button>

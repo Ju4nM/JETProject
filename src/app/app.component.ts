@@ -15,7 +15,7 @@ export class AppComponent {
     }
 
     async ngOnInit () {
-        this.user = sessionStorage.getItem("usuario");
+        this.user = sessionStorage.getItem("userName");
         if (this.user) {
             await this.router.navigate(["dashboard"]);
         } else {

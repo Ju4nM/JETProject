@@ -5,7 +5,7 @@
             <span class="cursor-pointer transition-all" #showButton><i class="fi fi-br-angle-down"></i></span>
         </div>
         <div class = "flex justify-start">
-            <button class="button button-danger max-w-fit">Eliminar <i class="fi fi-rs-trash"></i></button>
+            <button class="button button-danger max-w-fit" (click)="deleteUserHandler(user._id)">Eliminar <i class="fi fi-rs-trash"></i></button>
         </div>
     </div>
     <div #userInfo class="user-info overflow-y-hidden w-full bg-blue-600 rounded-b-md {{isShown ? 'p-3 pt-4 h-56' : 'h-0'}} transition-all text-lg flex flex-col justify-between gap-4 mx-auto">

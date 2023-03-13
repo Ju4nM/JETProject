@@ -6,7 +6,7 @@
         <div class="flex items-center flex-col pt-11">
             <h1 class = "dark:text-white text-4xl text-center font-semibold mb-8">Inicio de sesion</h1>
 
-            <form class = "flex flex-col bg-blue-500 p-5 rounded-md gap-8 sm:w-2/3 xl:w-auto" #login="ngForm" (ngSubmit)="onSubmit(login)">
+            <form class = "flex flex-col bg-blue-500 p-5 rounded-md gap-8 sm:w-2/3 xl:w-auto" #login="ngForm" (ngSubmit)="onSubmit(login, loginModal)">
                 <div class="customInput">
                     <input name="userName" type="text" id="user" required ngModel />
                     <label for="user">Usuario</label>
@@ -21,3 +21,7 @@
         </div>
     </div>
 </div>
+
+<app-modal [title]="'Error'" #loginModal>
+    <p class="text-xl">{{loginError}}</p>
+</app-modal>

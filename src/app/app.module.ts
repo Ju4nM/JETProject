@@ -9,7 +9,7 @@ import { ChartsComponent } from './components/dashboard/charts/charts.component'
 import { AboutComponent } from './components/dashboard/about/about.component';
 import { HistoriesComponent } from './components/dashboard/histories/histories.component';
 import { ControlComponent } from './components/dashboard/control/control.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HttpClientXsrfModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
@@ -35,7 +35,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     AppRoutingModule,
     FormsModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

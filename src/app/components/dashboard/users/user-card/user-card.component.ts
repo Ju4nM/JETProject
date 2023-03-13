@@ -8,12 +8,17 @@ import User from '../interfaces/user.interface';
 })
 export class UserCardComponent {
   @Input() user!: User;
+  @Input() deleteUserHandler!: (id: string) => void;
+
   isShown: boolean = false;
+
   @ViewChild("showButton") showButtonElement!: ElementRef<HTMLSpanElement>;
-  @ViewChild("cardHeader") headerElement!: ElementRef<HTMLDivElement>;
-  @ViewChild("userInfo") userInfoElement!: ElementRef<HTMLDivElement>;
   showButton!: HTMLSpanElement;
+
+  @ViewChild("cardHeader") headerElement!: ElementRef<HTMLDivElement>;
   header!: HTMLDivElement;
+
+  @ViewChild("userInfo") userInfoElement!: ElementRef<HTMLDivElement>;
   userInfo!: HTMLDivElement;
 
   constructor (

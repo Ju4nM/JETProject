@@ -39,15 +39,20 @@ export class DashboardComponent {
         userMenu: false
     };
     
+    userInfo: {userName: string | any, userType: boolean};
+    
     constructor (
         private router: Router
     ) {
-        let tipoUsuario: any = sessionStorage.getItem("tipoUsuario");
-        this.states.isAdmin = tipoUsuario == "0";
+        let userType: any = sessionStorage.getItem("userType");
+        this.userInfo = {
+            userName: sessionStorage.getItem("userName"),
+            userType: userType == "1"
+        };
     }
 
     async ngOnInit() {
-        let user = sessionStorage.getItem("usuario");
+        let user = sessionStorage.getItem("userName");
         if (!user) this.router.navigate(["login"]);
     }
     

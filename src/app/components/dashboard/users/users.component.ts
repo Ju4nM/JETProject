@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParamsOptions, HttpRequest } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -17,6 +17,8 @@ export class UsersComponent {
   isLoading: boolean = true;
   registrationErrors: string[] = [];
   @ViewChild("formErrorsModal") modalErrors!: ModalComponent;
+  @ViewChild("modalForm") modalForm!: ModalComponent;
+  @ViewChild("modalConfirm") modalConfirm!: ModalComponent
 
   constructor (
     private userService: UsersService
@@ -41,26 +43,56 @@ export class UsersComponent {
   /**
    * Check if the both passwords are equals, if both passwords aren't equals then show up the modal with the error
    * else, show up the modal with the form for register an user
-   * @param { NgForm } formRegistration - Form pulled from the DOM
+   * @param { NgForm } registrationForm - Form pulled from the DOM
    * @returns 
    */
-  async registerUser (formRegistration: NgForm) {
-    let { password, passwordRepeated } = formRegistration.value;
+  async registerUser (registrationForm: NgForm) {
+    let { password, passwordRepeated, email } = registrationForm.value;
     
     if (password !== passwordRepeated) {
       this.registrationErrors = ['Las contraseñas no son iguales'];
       this.modalErrors.show();
       return;
     }
+
+    if (email === "") delete registrationForm.value.email;
     
     this.isLoading = true;
-    let response: User | HttpErrorResponse = await this.userService.registerUser(formRegistration.value);
+    let response: User | HttpErrorResponse = await this.userService.registerUser(registrationForm.value);
 
     this.responseManager<User>(response, (newUser: User) => {
       this.userData.push(newUser)
+      registrationForm.reset();
+      this.modalForm.hidden();
       this.isLoading = false;
     });
   }
+
+  
+  deleteUser = async (id: string) => {
+    
+    let {status, value}: {status: boolean, value: string | null} = await this.modalConfirm.prompt(
+      "Introduzca su contraseña para confirmar su identidad",
+      "Contraseña",
+      "password"
+    );
+
+    if (!status) {
+      console.log("La contraseña es incorrecta");
+      return;
+    }
+
+    console.log("borrando registro");
+    console.log(value);
+
+    // this.isLoading = true;
+    // await this.responseManager<User>(await this.userService.deleteUser(id), (userDeleted: User) => {
+    //   this.userData = this.userData.filter((user: User) => user._id !== id);
+    //   this.isLoading = false;
+    // });
+    
+  }
+
 
   /**
    * Manage the response from the web api, if the web api returns an error, this method shows up the modal with the errors,
@@ -70,6 +102,7 @@ export class UsersComponent {
    * 
    */
   async responseManager<T> (response: T | HttpErrorResponse, responseFunction: any ) {
+    console.log(response);
 
     if (!(response instanceof HttpErrorResponse)) {
       await responseFunction(response);
@@ -78,10 +111,9 @@ export class UsersComponent {
     if (this.isLoading) this.isLoading = false;
     
     this.registrationErrors = 
-      response.status == 400 
+      response.status == 400 || response.status == 409
         ? response.error.message 
         : ["Error en el servidor"];
-    
     this.modalErrors.show();
   }
 }
