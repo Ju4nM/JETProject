@@ -1,7 +1,7 @@
-import { HttpErrorResponse, HttpParamsOptions, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ModalComponent } from '../../modal/modal.component';
 import User from './interfaces/user.interface';
 import { UsersService } from './users.service';
@@ -16,17 +16,37 @@ export class UsersComponent {
   userData: User[] = [];
   isLoading: boolean = true;
   registrationErrors: string[] = [];
+  actionError: string = "";
+  interval: any;
   @ViewChild("formErrorsModal") modalErrors!: ModalComponent;
   @ViewChild("modalForm") modalForm!: ModalComponent;
-  @ViewChild("modalConfirm") modalConfirm!: ModalComponent
+  @ViewChild("modalConfirm") modalConfirm!: ModalComponent;
+  @ViewChild("actionErrors") modalActionError!: ModalComponent;
+
+  @ViewChild("modalUpdate") modalUpdate!: ModalComponent;
+  @ViewChild("udpateForm") updateForm!: NgForm;
+  updateValues: User = {
+    names: "",
+    firstLastName: "",
+    secondLastName: "",
+    userName: "",
+    email: "",
+    password: "",
+    _id: ""
+  };
 
   constructor (
-    private userService: UsersService
-  ) {
-  }
+    private userService: UsersService,
+    private authService: AuthService
+  ) {}
   
-  ngOnInit() {
+  async ngOnInit() {
+    // this.startTimer();
     this.loadData();
+  }
+
+  ngOnDestroy () {
+    // this.pauseTimer();
   }
 
   /**
@@ -67,7 +87,6 @@ export class UsersComponent {
       this.isLoading = false;
     });
   }
-
   
   deleteUser = async (id: string) => {
     
@@ -77,22 +96,40 @@ export class UsersComponent {
       "password"
     );
 
-    if (!status) {
-      console.log("La contraseña es incorrecta");
+    if (!status || value == null) return;
+    
+    let authCredentials: boolean = await this.authService.authConfirm(value);
+
+    if (!authCredentials) {
+      this.actionError = "No se ha podido borrar el registro";
+      this.modalActionError.show();
       return;
     }
 
-    console.log("borrando registro");
-    console.log(value);
-
-    // this.isLoading = true;
-    // await this.responseManager<User>(await this.userService.deleteUser(id), (userDeleted: User) => {
-    //   this.userData = this.userData.filter((user: User) => user._id !== id);
-    //   this.isLoading = false;
-    // });
+    this.isLoading = true;
+    await this.responseManager<User>(await this.userService.deleteUser(id), (userDeleted: User) => {
+      this.userData = this.userData.filter((user: User) => user._id !== id);
+      this.isLoading = false;
+    });
     
   }
 
+  startTimer() {
+    this.interval = setInterval(() => this.loadData(), 500)
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
+  updateUser() {
+
+  }
+
+  showModalUpdate = (userData: User) => {
+    this.modalUpdate.show();
+    this.updateValues = userData;
+  }
 
   /**
    * Manage the response from the web api, if the web api returns an error, this method shows up the modal with the errors,
@@ -102,8 +139,6 @@ export class UsersComponent {
    * 
    */
   async responseManager<T> (response: T | HttpErrorResponse, responseFunction: any ) {
-    console.log(response);
-
     if (!(response instanceof HttpErrorResponse)) {
       await responseFunction(response);
       return;

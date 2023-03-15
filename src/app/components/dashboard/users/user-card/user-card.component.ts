@@ -9,6 +9,7 @@ import User from '../interfaces/user.interface';
 export class UserCardComponent {
   @Input() user!: User;
   @Input() deleteUserHandler!: (id: string) => void;
+  @Input() updateUserHandler!: (userData: User) => void;
 
   isShown: boolean = false;
 
@@ -41,7 +42,7 @@ export class UserCardComponent {
     this.spinShowButton();
     this.isShown = true;
     await new Promise(resolve => {
-      setInterval(() => resolve(true), 150);
+      setTimeout(() => resolve(true), 150);
     });
     this.render.removeClass(this.userInfo, "overflow-y-hidden");
     this.render.addClass(this.userInfo, "overflow-y-auto");

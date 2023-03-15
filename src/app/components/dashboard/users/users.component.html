@@ -10,7 +10,7 @@
     </div>
     <!-- <div class = "spinner {{!dataIsLoaded ? '' : 'hidden'}}"></div> -->
     <div class = "flex flex-col w-full gap-7">
-        <app-user-card [user]="user" *ngFor="let user of userData" [deleteUserHandler]="(deleteUser)" class = "user-card"></app-user-card>
+        <app-user-card [user]="user" *ngFor="let user of userData" [deleteUserHandler]="(deleteUser)" [updateUserHandler]="(showModalUpdate)"></app-user-card>
     </div>
 </div>
 
@@ -51,6 +51,43 @@
     </form>
 </app-modal>
 
+<app-modal [maxWidth]="'2xl'" [title]="'Actualizaci&oacute;n de usuario'" #modalUpdate>
+    <form #updateForm="ngForm" class = "user-registration-form" (ngSubmit)="updateUser()">
+        <div>
+            <label for="updateNames">Nombre(s) <span>*</span></label>
+            <input type="text" class = "text-field" id="updateNames" name="names" placeholder="Primer nombre" value="{{updateValues.names}}" ngModel>
+        </div>
+        <div>
+            <label for="udpateFirstLastName">Apellido paterno <span>*</span></label>
+            <input type="text" class = "text-field" id="updateFirstLastName" name="firstLastName" placeholder="Apellido" value="{{updateValues.firstLastName}}" ngModel>
+        </div>
+        <div>
+            <label for="udpateSecondLastName">Apellido materno <span>*</span></label>
+            <input type="text" class = "text-field" id="updateSecondLastName" name="secondLastName" placeholder="Apellido" value="{{updateValues.secondLastName}}" ngModel>
+        </div>
+        <div>
+            <label for="updateUserName">Nombre usuario <span>*</span></label>
+            <input type="text" class = "text-field" id="updateUserName" name="userName" placeholder="usuario" value="{{updateValues.userName}}" ngModel>
+        </div>
+        <div class="sm:col-span-2">
+            <label for="updateEmail">Correo <span></span></label>
+            <input type="text" class = "text-field" id="updateEmail" name="email" placeholder="correo@ejemplo.com" value="{{updateValues.email}}" ngModel>
+        </div>
+        <div>
+            <label for="updatePassword">Contrase&ntilde;a <span>*</span></label>
+            <input type="password" id="updatePassword" class = "text-field" name="password" placeholder="··········" ngModel>
+        </div>
+        <div>
+            <label for="updatePasswordRepeated">Repita la contrase&ntilde;a <span>*</span></label>
+            <input type="password" id="updatePasswordRepeated" class = "text-field" name="passwordRepeated" placeholder="··········" ngModel>
+        </div>
+        <div class = "flex justify-between gap-2 sm:col-span-2">
+            <button class="button button-warning" type="reset">Limpiar</button>
+            <button class="button button-success" type="submit">Actualizar</button>
+        </div>
+    </form>
+</app-modal>
+
 <app-modal #formErrorsModal [title] = "'Errores en el registro'">
     <div class = "text-lg">
         <p *ngFor="let error of registrationErrors">- {{error}}</p>
@@ -59,4 +96,9 @@
 
 <app-loading-spinner class="{{isLoading ? '' : 'hidden'}}"></app-loading-spinner>
 
+<app-modal [title]="'Error al ejecutar la accion'" #actionErrors>
+    <div class="text-lg">
+        <p>{{actionError}}</p>
+    </div>
+</app-modal>
 <app-modal [title]="'Confirmacion'" [promptMode]="true" #modalConfirm></app-modal>

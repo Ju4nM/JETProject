@@ -12,6 +12,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class LoginComponent {
 
     loginError: string = "";
+    isLoading: boolean = false;
 
     constructor (
         private router : Router,
@@ -25,11 +26,11 @@ export class LoginComponent {
 
     async validateUser (userName: string, password: string, loginModal: ModalComponent) {
         
-        let isLoged: boolean = await this.authService.login({userName, password});
-
+        this.isLoading = true;
+        let isLoged: boolean = await this.authService.auth({userName, password});
+        this.isLoading = false;
         if (isLoged) {
             await this.router.navigate(["dashboard/about"]);
-            // window.location.reload();
             return;
         }
 

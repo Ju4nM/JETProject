@@ -15,7 +15,7 @@ const routes: Routes = [
       { path: "users", component: UsersComponent },
       { path: "about", component: AboutComponent },
       { path: "charts", component: ChartsComponent },
-      { path: "**", redirectTo: "users" },
+      { path: "**", redirectTo: "about" },
     ]
   },
 ];

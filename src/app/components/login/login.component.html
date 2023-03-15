@@ -4,7 +4,7 @@
             <img src="./assets/img/JetLogo.png" alt="JetLogo" class = "h-48 xl:h-96 mx-auto select-none">
         </div>
         <div class="flex items-center flex-col pt-11">
-            <h1 class = "dark:text-white text-4xl text-center font-semibold mb-8">Inicio de sesion</h1>
+            <h1 class = "dark:text-white text-4xl text-center font-semibold mb-8">Inicio de sesi&oacute;n</h1>
 
             <form class = "flex flex-col bg-blue-500 p-5 rounded-md gap-8 sm:w-2/3 xl:w-auto" #login="ngForm" (ngSubmit)="onSubmit(login, loginModal)">
                 <div class="customInput">
@@ -23,5 +23,7 @@
 </div>
 
 <app-modal [title]="'Error'" #loginModal>
-    <p class="text-xl">{{loginError}}</p>
+    <p class="text-xl text-center">{{loginError}}</p>
 </app-modal>
+
+<app-loading-spinner class="{{isLoading ? '' : 'hidden'}}"></app-loading-spinner>
