@@ -77,6 +77,17 @@ export class UsersService {
   }
 
   /**
+   * This function sends request to retrieve the user data that belongs to the userName
+   * @param {string} userName 
+   * @returns 
+   */
+  async findByUserName (userName: string): Promise<User | HttpErrorResponse> {
+    return await this.requestManager<User> (
+      this.http.get<User>(`${this.endPoint}/${userName}`)
+    );
+  }
+
+  /**
    * This function was created to convert the Observable that the http.something (http.something is an example) returns, to Promise,
    * this was done to be able to use the async-await
    * @param {Observable<T | HttpErrorResponse>} request - Observable<T> returned from the http.something

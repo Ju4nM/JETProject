@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ModalComponent } from '../../modal/modal.component';
+import { UpdateUser } from './interfaces/updateUser.interface';
 import User from './interfaces/user.interface';
 import { UsersService } from './users.service';
 
@@ -13,27 +14,37 @@ import { UsersService } from './users.service';
 })
 export class UsersComponent {
 
+  // General variables
   userData: User[] = [];
   isLoading: boolean = true;
-  registrationErrors: string[] = [];
-  actionError: string = "";
-  interval: any;
   @ViewChild("formErrorsModal") modalErrors!: ModalComponent;
-  @ViewChild("modalForm") modalForm!: ModalComponent;
+  
+  // To do an action like delete or update any user
+  actionError: string = "";
   @ViewChild("modalConfirm") modalConfirm!: ModalComponent;
   @ViewChild("actionErrors") modalActionError!: ModalComponent;
 
+  // To register a new user
+  registrationErrors: string[] = [];
+  @ViewChild("modalForm") modalForm!: ModalComponent;
+
+  // To update any user
   @ViewChild("modalUpdate") modalUpdate!: ModalComponent;
   @ViewChild("udpateForm") updateForm!: NgForm;
-  updateValues: User = {
+  updateValues: UpdateUser = {
     names: "",
     firstLastName: "",
     secondLastName: "",
+    passwordRepeated: "",
     userName: "",
     email: "",
     password: "",
     _id: ""
   };
+
+  // To find any user
+  userNameToFind: string = "";
+  findMode = false;
 
   constructor (
     private userService: UsersService,
@@ -58,6 +69,36 @@ export class UsersComponent {
       this.userData = users
       this.isLoading = false;
     });
+  }
+
+  async findUser () {
+    if (this.userNameToFind.trim() == "") {
+      this.actionError = "El nombre de usuario no puede estar vacio";
+      this.modalActionError.show();
+      return;
+    }
+
+    this.isLoading = true;
+    await this.responseManager<User>(await this.userService.findByUserName(this.userNameToFind), (user: User) => {
+      this.isLoading = false;
+      if (user !== null) {
+        this.userData = [user];
+        this.findMode = true;
+        return;
+      }
+
+      this.actionError = `No se ha encontrado ningun registro con el nombre de usuario "${this.userNameToFind}"`;
+      this.modalActionError.show();
+    });
+  }
+
+  async endFinding () {
+    this.userNameToFind = "";
+    this.actionError = "";
+
+    this.findMode = false;
+    this.isLoading = true;
+    await this.loadData();
   }
 
   /**
@@ -86,49 +127,49 @@ export class UsersComponent {
       this.modalForm.hidden();
       this.isLoading = false;
     });
+
+    if (this.findMode) this.endFinding();
   }
   
   deleteUser = async (id: string) => {
-    
-    let {status, value}: {status: boolean, value: string | null} = await this.modalConfirm.prompt(
-      "Introduzca su contraseña para confirmar su identidad",
-      "Contraseña",
-      "password"
-    );
-
-    if (!status || value == null) return;
-    
-    let authCredentials: boolean = await this.authService.authConfirm(value);
-
-    if (!authCredentials) {
-      this.actionError = "No se ha podido borrar el registro";
-      this.modalActionError.show();
-      return;
-    }
-
-    this.isLoading = true;
-    await this.responseManager<User>(await this.userService.deleteUser(id), (userDeleted: User) => {
-      this.userData = this.userData.filter((user: User) => user._id !== id);
-      this.isLoading = false;
+    await this.confirmIdentity("No se ha podido borrar el registro", async () => {
+      this.isLoading = true;
+      await this.responseManager<User>(await this.userService.deleteUser(id), (userDeleted: User) => {
+        this.userData = this.userData.filter((user: User) => user._id !== id);
+        this.isLoading = false;
+      });
     });
-    
+    if (this.findMode) this.endFinding();
   }
 
-  startTimer() {
-    this.interval = setInterval(() => this.loadData(), 500)
+  async updateUser() {
+    await this.confirmIdentity("No se pudo actualizar el registro", async () => {
+      this.isLoading = true;
+      await this.responseManager<User>(await this.userService.updateUser(this.updateValues._id, this.updateValues), (userUpdated: User) => {
+        this.loadData();
+        this.modalUpdate.hidden();
+        this.resetUpdateValues();
+      });
+    });
+    if (this.findMode) this.endFinding();
   }
 
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
-
-  updateUser() {
-
+  resetUpdateValues () {
+    this.updateValues = {
+      names: "",
+      firstLastName: "",
+      secondLastName: "",
+      passwordRepeated: "",
+      userName: "",
+      email: "",
+      password: "",
+      _id: ""
+    };
   }
 
   showModalUpdate = (userData: User) => {
     this.modalUpdate.show();
-    this.updateValues = userData;
+    this.updateValues = { ...userData, passwordRepeated: "" };
   }
 
   /**
@@ -150,5 +191,32 @@ export class UsersComponent {
         ? response.error.message 
         : ["Error en el servidor"];
     this.modalErrors.show();
+  }
+
+  /**
+   * The only user can delete or update an user is the admin, therefore, this function shows a modal to confirm
+   * the user identity
+   * @param errorMessage 
+   * @param resultHandler 
+   * @returns 
+   */
+  async confirmIdentity (errorMessage: string, resultHandler: any) {
+    let {status, value}: {status: boolean, value: string | null} = await this.modalConfirm.prompt(
+      "Introduzca su contraseña para confirmar su identidad",
+      "Contraseña",
+      "password"
+    );
+
+    if (!status || value == null) return;
+    
+    let authCredentials: boolean = await this.authService.authConfirm(value);
+
+    if (!authCredentials) {
+      this.actionError = errorMessage;
+      this.modalActionError.show();
+      return;
+    }
+
+    await resultHandler();
   }
 }
