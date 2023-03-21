@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'app-modal',
@@ -31,6 +32,8 @@ export class ModalComponent {
   // max-w-screen-xl
   // max-w-screen-2xl
 
+  modalId: number;
+
   @Input() title: string = "";
   @Input() maxWidth: string = "lg";
   @Input() promptMode: boolean = false; 
@@ -49,8 +52,10 @@ export class ModalComponent {
   @ViewChild("confirmPrompt") confirmButton!: ElementRef<HTMLButtonElement>;
 
   constructor (
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private modalService: ModalService
   ) {
+    this.modalId = this.modalService.addModal(this);
   }
 
   ngAfterViewInit () {
@@ -64,10 +69,6 @@ export class ModalComponent {
       return;
     }
 
-    this.renderer.listen("window", "keyup", ({key}) => {
-      if (key == "Escape" && this.isVisible) this.hidden();
-    });
-
     this.renderer.listen(this.modalBg.nativeElement, "click", e => {
       if (this.modalBg.nativeElement == e.target) this.hidden();
     });
@@ -75,9 +76,11 @@ export class ModalComponent {
 
   show () {
     this.isVisible = true;
+    this.modalService.showModal(this.modalId);
   }
   
   async hidden () {
+    this.modalService.hiddenModal(this.modalId);
     await new Promise((resolve) => {
       this.renderer.setStyle(this.modal, "transform", "translateY(-100vh)");
       setInterval(() => resolve(true), 500);

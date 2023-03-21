@@ -5,7 +5,7 @@ import {
 import { Injectable } from "@angular/core";
 import { AuthData } from "./interfaces/auth.interface";
 import config from "../../config";
-import { firstValueFrom, Observable } from "rxjs";
+import { requestManager } from "src/app/utils/helpers";
 
 interface AuthResponse {
 	id: string;
@@ -23,7 +23,7 @@ export class AuthService {
 	constructor(private http: HttpClient) {}
 
 	async auth(loginData: AuthData): Promise<boolean> {
-		let loginRequest: AuthResponse | HttpErrorResponse = await this.requestManager<AuthResponse>(
+		let loginRequest: AuthResponse | HttpErrorResponse = await requestManager<AuthResponse>(
 			this.http.post<AuthResponse>(`${this.endPoint}/auth`, loginData)
 		);
 
@@ -46,14 +46,10 @@ export class AuthService {
 			password
 		}
 		
-		let confirmation: AuthResponse | HttpErrorResponse = await this.requestManager<AuthResponse>(
+		let confirmation: AuthResponse | HttpErrorResponse = await requestManager<AuthResponse>(
 			this.http.post<AuthResponse>(`${this.endPoint}/auth`, data)
 		);
 
 		return !(confirmation instanceof HttpErrorResponse);
-	}
-
-	async requestManager<T>(request: Observable<T | HttpErrorResponse>): Promise<T | HttpErrorResponse> {
-		return await firstValueFrom(request).catch((error) => error);
 	}
 }

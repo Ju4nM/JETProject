@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpInterceptor } from '@angular/common/http';
-import { delay, first, firstValueFrom, Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import User from './interfaces/user.interface';
 import config from "../../../config";
+import { requestManager } from 'src/app/utils/helpers';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class UsersService {
    * @returns {User[] | HttpErrorResponse} - If an error exists in the server this function will return an HttpErrorResponse
    */
   async getUsers (): Promise<User[] | HttpErrorResponse> {
-    return await this.requestManager<User[]>(
+    return await requestManager<User[]>(
       this.http.get<User[]>(this.endPoint)
     );
   }
@@ -32,7 +32,7 @@ export class UsersService {
    * else, returns an error of type HttpErrorResponse
    */
   async getUser (id: string): Promise<User | HttpErrorResponse> {
-    return await this.requestManager<User>(
+    return await requestManager<User>(
       this.http.get<User>(`${this.endPoint}/${id}`)
     );
   }
@@ -45,7 +45,7 @@ export class UsersService {
    * with an array that will contain the registration errors
    */
   async registerUser (newUser: User): Promise<User | HttpErrorResponse> {
-    return await this.requestManager<User>(
+    return await requestManager<User>(
       this.http.post<User>(this.endPoint, newUser)
     );
   }
@@ -58,7 +58,7 @@ export class UsersService {
    * 
    */
   async deleteUser (id: string): Promise<User | HttpErrorResponse> {
-    return await this.requestManager<User>(
+    return await requestManager<User>(
       this.http.delete<User>(`${this.endPoint}/${id}`)
     );
   }
@@ -71,7 +71,7 @@ export class UsersService {
    * done successfully, in the other case, returns a HttpErrorResponse error
    */
   async updateUser (id: string, userData: User): Promise<User | HttpErrorResponse> {
-    return await this.requestManager<User>(
+    return await requestManager<User>(
       this.http.put<User>(`${this.endPoint}/${id}`, userData)
     );
   }
@@ -82,18 +82,9 @@ export class UsersService {
    * @returns 
    */
   async findByUserName (userName: string): Promise<User | HttpErrorResponse> {
-    return await this.requestManager<User> (
+    return await requestManager<User> (
       this.http.get<User>(`${this.endPoint}/${userName}`)
     );
   }
 
-  /**
-   * This function was created to convert the Observable that the http.something (http.something is an example) returns, to Promise,
-   * this was done to be able to use the async-await
-   * @param {Observable<T | HttpErrorResponse>} request - Observable<T> returned from the http.something
-   * @returns {Promise<T | HttpErrorResponse>} - This is an object of type specify on the function or a HttpErrorResponse object
-   */
-  async requestManager<T> (request: Observable<T | HttpErrorResponse>): Promise<T | HttpErrorResponse> {
-    return await firstValueFrom(request).catch(error => error);
-  }
 }

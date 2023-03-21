@@ -1,5 +1,9 @@
-import { Component } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, ViewChild } from "@angular/core";
 import { Chart, registerables } from "chart.js";
+import { ModalComponent } from "../../modal/modal.component";
+import { ControlService } from "./control.service";
+import DataDevices from "./interfaces/deviceData";
 
 @Component({
 	selector: "app-control",
@@ -7,9 +11,25 @@ import { Chart, registerables } from "chart.js";
 	styleUrls: ["./control.component.css"],
 })
 export class ControlComponent {
+	
+	@ViewChild("errorModal") errorModal!: ModalComponent;
+
+	temperatureLimit!: number;
+	tempLimitDisplayed!: number;	
+	fanStatus!: boolean;
+
 	todayChart: any;
+	error: string = "";
+
+	updaterInterval: any;
+
+	constructor (
+		private controlService: ControlService
+	) {}
 
 	ngOnInit () {
+		this.init();
+
 		Chart.register(...registerables);
 
 		this.todayChart = new Chart("todayChart", {
@@ -66,5 +86,50 @@ export class ControlComponent {
 				},
 			},
 		});
+	}
+
+	ngOnDestroy () {
+		this.stopUpdater();
+	}
+
+	init () {
+		this.updater();
+	}
+
+	updater () {
+		this.updaterInterval = setInterval(async () => await this.loadDeviceData(), 1000);
+	}
+
+	stopUpdater () {
+		clearInterval(this.updaterInterval);
+	}
+
+	async loadDeviceData () {
+		let deviceData: DataDevices | HttpErrorResponse = await this.controlService.getCurrentDevices();
+
+		if (deviceData instanceof HttpErrorResponse) {
+			this.error = "Ha ocurrido un error al cargar los datos del servidor";
+
+			this.temperatureLimit = 0;
+			this.tempLimitDisplayed = 0;
+			this.fanStatus = false;
+			this.errorModal.show();
+			return;
+		}
+
+		this.temperatureLimit = deviceData.sensor.temperatureLimit;
+		this.tempLimitDisplayed = deviceData.sensor.temperatureLimit;
+		this.fanStatus = deviceData.rele.state;
+	}
+
+	async toggleFan () {
+		let result = await this.controlService.toggleFan();
+	
+		if (result instanceof HttpErrorResponse) {
+			this.error = `Ha ocurrido un error al ${this.fanStatus ? "apagar" : "encender"} la ventilacion`;
+			this.errorModal.show();
+			return;
+		}
+		this.loadDeviceData();
 	}
 }

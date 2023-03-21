@@ -52,12 +52,7 @@ export class UsersComponent {
   ) {}
   
   async ngOnInit() {
-    // this.startTimer();
-    this.loadData();
-  }
-
-  ngOnDestroy () {
-    // this.pauseTimer();
+    await this.loadData();
   }
 
   /**

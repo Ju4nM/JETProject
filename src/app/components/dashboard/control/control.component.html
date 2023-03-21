@@ -7,8 +7,8 @@
         <div class="flex flex-col gap-2 xl:w-full xl:items-center">
             <h1 class = "font-semibold text-xl text-center xl:text-2xl">Control de temperatura</h1>
             <div class = "flex flex-col gap-3">
-                <p>Temperatura actual: <span class = "font-semibold">30°</span></p>
-                <input type = "number" value = "30" class = "text-field">
+                <p>Temperatura actual: <span class = "font-semibold">{{tempLimitDisplayed}}°</span></p>
+                <input type = "number" value = "----" class = "text-field" [(ngModel)]="temperatureLimit">
                 <button class = "button button-success">Actualizar</button>
             </div>
         </div>
@@ -16,14 +16,14 @@
             <h1 class = "font-semibold text-xl text-centera xl:text-2xl">Ventilacion</h1>
             <div class = "flex flex-col justify-center gap-3">
                 <p>Estado: <span class="font-semibold">Apagado</span></p>
-                <!-- <div class = "flex gap-5 items-center">
+                <div class = "flex gap-5 items-center">
                     <p class="text-lg">Encender: </p>
                     <label class = "switch" for = "fanState">
-                        <input type="checkbox" class = "hidden" id = "fanState" />
+                        <input type="checkbox" class = "hidden" id = "fanState" [(ngModel)]="fanStatus" (click)="toggleFan()"/>
                         <span class = "slider"></span>
                     </label>
-                </div> -->
-                <button class="button button-success">Encender</button>
+                </div>
+                <!-- <button class="button button-success">Encender</button> -->
             </div>
         </div>
     </div>
@@ -31,3 +31,7 @@
         <canvas id = "todayChart">{{ todayChart }}</canvas>
     </div>
 </div>
+
+<app-modal [title]="'Error'" #errorModal>
+    <p>{{error}}</p>
+</app-modal>
