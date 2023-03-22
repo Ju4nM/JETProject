@@ -20,6 +20,7 @@ export class ControlComponent {
 
 	todayChart: any;
 	error: string = "";
+	isLoading: boolean = true;
 
 	updaterInterval: any;
 
@@ -92,7 +93,9 @@ export class ControlComponent {
 		this.stopUpdater();
 	}
 
-	init () {
+	async init () {
+		await this.loadDeviceData();
+		if (this.isLoading) this.isLoading = false;
 		this.updater();
 	}
 
