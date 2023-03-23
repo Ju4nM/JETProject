@@ -1,5 +1,5 @@
 
 export default interface TemperatureLimit {
-    temperatureLimit: number;
+    limitTemperature: number;
     user: string;
 }

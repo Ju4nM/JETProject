@@ -26,7 +26,7 @@ export class ControlService {
 
   async newTemperature (temperature: number): Promise<TemperatureLimit | HttpErrorResponse> {
     let newTemperature: TemperatureLimit = {
-      temperatureLimit: temperature,
+      limitTemperature: temperature,
       user: sessionStorage.getItem("id") ?? ""
     };
 

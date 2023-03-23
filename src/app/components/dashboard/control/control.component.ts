@@ -13,13 +13,16 @@ import DataDevices from "./interfaces/deviceData";
 export class ControlComponent {
 	
 	@ViewChild("errorModal") errorModal!: ModalComponent;
+	@ViewChild("warningModal") warningModal!: ModalComponent;
 
 	temperatureLimit!: number;
+	currentTemperatureLimit!: number;
 	tempLimitDisplayed!: number;	
 	fanStatus!: boolean;
 
 	todayChart: any;
 	error: string = "";
+	warning: string = "";
 	isLoading: boolean = true;
 
 	updaterInterval: any;
@@ -120,19 +123,41 @@ export class ControlComponent {
 			return;
 		}
 
-		this.temperatureLimit = deviceData.sensor.temperatureLimit;
-		this.tempLimitDisplayed = deviceData.sensor.temperatureLimit;
 		this.fanStatus = deviceData.rele.state;
+		
+		if (this.temperatureLimit === deviceData.sensor.temperatureLimit) return;
+		this.temperatureLimit = deviceData.sensor.temperatureLimit;
+		this.tempLimitDisplayed = this.temperatureLimit;
+		this.currentTemperatureLimit = this.temperatureLimit;
 	}
 
 	async toggleFan () {
 		let result = await this.controlService.toggleFan();
 	
-		if (result instanceof HttpErrorResponse) {
-			this.error = `Ha ocurrido un error al ${this.fanStatus ? "apagar" : "encender"} la ventilacion`;
-			this.errorModal.show();
+		if (!(result instanceof HttpErrorResponse)) {
+			this.loadDeviceData();
 			return;
 		}
-		this.loadDeviceData();
+		this.error = `Ha ocurrido un error al ${this.fanStatus ? "apagar" : "encender"} la ventilacion`;
+		this.errorModal.show();
+	}
+
+	async updateTemperatureLimit() {
+		
+		if (this.currentTemperatureLimit === this.temperatureLimit) {
+			this.warning = "La temperatura que se quiere registrar es la misma que ya se encuentra registrada";
+			this.warningModal.show();
+			return;
+		}
+		
+		let response = await this.controlService.newTemperature(this.currentTemperatureLimit);
+
+		if (!(response instanceof HttpErrorResponse)) {
+			this.loadDeviceData();
+			return;
+		}
+
+		this.error = "Ocurrio un error al intentar actualizar el limite de temperatura, intentelo mas tarde";
+		this.errorModal.show();
 	}
 }

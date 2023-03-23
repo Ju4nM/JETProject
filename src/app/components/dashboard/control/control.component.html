@@ -8,8 +8,8 @@
             <h1 class = "font-semibold text-xl text-center xl:text-2xl">Control de temperatura</h1>
             <div class = "flex flex-col gap-3">
                 <p>Temperatura actual: <span class = "font-semibold">{{tempLimitDisplayed}}°</span></p>
-                <input type = "number" value = "----" class = "text-field" [(ngModel)]="temperatureLimit">
-                <button class = "button button-success">Actualizar</button>
+                <input type = "number" value = "{{temperatureLimit}}" class = "text-field" [(ngModel)]="currentTemperatureLimit">
+                <button class = "button button-success" (click)="updateTemperatureLimit()">Actualizar</button>
             </div>
         </div>
         <div class="flex flex-col gap-2 xl:w-full xl:items-center">
@@ -33,7 +33,11 @@
 </div>
 
 <app-modal [title]="'Error'" #errorModal>
-    <p>{{error}}</p>
+    <p class = "text-lg">{{error}}</p>
+</app-modal>
+
+<app-modal [title]="'Aviso'" #warningModal>
+    <p class = "text-lg">{{warning}}</p>
 </app-modal>
 
 <app-loading-spinner class="{{isLoading ? '' : 'hidden'}}"></app-loading-spinner>
