@@ -6,13 +6,7 @@ import { Injectable } from "@angular/core";
 import { AuthData } from "./interfaces/auth.interface";
 import config from "../../config";
 import { requestManager } from "src/app/utils/helpers";
-
-interface AuthResponse {
-	id: string;
-	userName: string;
-	userType: boolean;
-    auth_token: string;
-}
+import UserAuthorized from "./interfaces/userAuthorized.interface";
 
 @Injectable({
 	providedIn: "root",
@@ -23,8 +17,8 @@ export class AuthService {
 	constructor(private http: HttpClient) {}
 
 	async auth(loginData: AuthData): Promise<boolean> {
-		let loginRequest: AuthResponse | HttpErrorResponse = await requestManager<AuthResponse>(
-			this.http.post<AuthResponse>(`${this.endPoint}/auth`, loginData)
+		let loginRequest: UserAuthorized | HttpErrorResponse = await requestManager<UserAuthorized>(
+			this.http.post<UserAuthorized>(`${this.endPoint}/auth`, loginData)
 		);
 
 		if (loginRequest instanceof HttpErrorResponse) return false;
@@ -35,7 +29,6 @@ export class AuthService {
 			"userType",
 			loginRequest.userType === true ? "1" : "0"
 		);
-		document.cookie += `auth_token=${loginRequest.auth_token};`;
 
 		return true;
 	}
@@ -46,8 +39,8 @@ export class AuthService {
 			password
 		}
 		
-		let confirmation: AuthResponse | HttpErrorResponse = await requestManager<AuthResponse>(
-			this.http.post<AuthResponse>(`${this.endPoint}/auth`, data)
+		let confirmation: UserAuthorized| HttpErrorResponse = await requestManager<UserAuthorized>(
+			this.http.post<UserAuthorized>(`${this.endPoint}/auth`, data)
 		);
 
 		return !(confirmation instanceof HttpErrorResponse);

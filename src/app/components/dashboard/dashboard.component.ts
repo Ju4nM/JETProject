@@ -29,11 +29,6 @@ export class DashboardComponent {
             userType: userType == "1"
         };
     }
-
-    async ngOnInit() {
-        let user = sessionStorage.getItem("userName");
-        if (!user) this.router.navigate(["login"]);
-    }
     
     changeSection(sectionNumber: number): void {
         this.currentSection = sectionNumber;

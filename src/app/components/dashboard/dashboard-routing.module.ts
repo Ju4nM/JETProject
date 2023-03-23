@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from 'src/app/guards/admin.guard';
 import { AboutComponent } from './about/about.component';
 import { ChartsComponent } from './charts/charts.component';
 import { ControlComponent } from './control/control.component';
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: "control", component: ControlComponent },
-      { path: "users", component: UsersComponent },
+      { path: "users", component: UsersComponent, canActivate: [AdminGuard] },
       { path: "about", component: AboutComponent },
       { path: "charts", component: ChartsComponent },
       { path: "**", redirectTo: "about" },
