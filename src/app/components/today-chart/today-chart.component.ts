@@ -54,7 +54,15 @@ export class TodayChartComponent {
 				scales: {
 					y: {
 						beginAtZero: true,
+						grid: {
+							color: "#424242"
+						}
 					},
+					x: {
+						grid: {
+							color: "#424242"
+						}
+					}
 				},
 			},
 		});

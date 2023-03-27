@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import config from 'src/app/config';
 import { requestManager } from 'src/app/utils/helpers';
 import DeviceData from './interfaces/deviceData';
+import { Temperature } from './interfaces/temperature.interface';
 import TemperatureLimit from './interfaces/temperatureLimit.interface';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class ControlService {
   endPoint: string = `${config.apiURL}`;
   devicesEndPoint: string = `${this.endPoint}/devices`;
   tempLimitEndPoint: string = `${this.endPoint}/limit-temperatures`;
+  tempEndPoint: string = `${this.endPoint}/temperatures/last`;
 
   constructor(
     private http: HttpClient
@@ -42,6 +44,12 @@ export class ControlService {
 
     return await requestManager (
       this.http.post(`${this.devicesEndPoint}/toggleFan`, dataToSend)
+    );
+  }
+
+  async getLastTemeperature(): Promise<Temperature | HttpErrorResponse> {
+    return await requestManager<Temperature> (
+      this.http.get<Temperature>(this.tempEndPoint)
     );
   }
 }

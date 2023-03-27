@@ -4,6 +4,7 @@ import { Chart, registerables } from "chart.js";
 import { ModalComponent } from "../../modal/modal.component";
 import { ControlService } from "./control.service";
 import DataDevices from "./interfaces/deviceData";
+import { Temperature } from "./interfaces/temperature.interface";
 
 @Component({
 	selector: "app-control",
@@ -19,13 +20,16 @@ export class ControlComponent {
 	currentTemperatureLimit!: number;
 	tempLimitDisplayed!: number;	
 	fanStatus!: boolean;
+	currentTemperature!: number;
 
 	todayChart: any;
 	error: string = "";
 	warning: string = "";
 	isLoading: boolean = true;
-
-	updaterInterval: any;
+	intervals: any = {
+		deviceData: null,
+		currentTemperature: null
+	};
 
 	constructor (
 		private controlService: ControlService
@@ -93,21 +97,23 @@ export class ControlComponent {
 	}
 
 	ngOnDestroy () {
-		this.stopUpdater();
+		this.stopUpdaters();
 	}
 
 	async init () {
 		await this.loadDeviceData();
 		if (this.isLoading) this.isLoading = false;
-		this.updater();
+		this.updaters();
 	}
 
-	updater () {
-		this.updaterInterval = setInterval(async () => await this.loadDeviceData(), 1000);
+	updaters () {
+		this.intervals.deviceData = setInterval(async () => await this.loadDeviceData(), 2000);
+		this.intervals.currentTemperature = setInterval(async () => await this.getCurrentTemperature(), 1000);
 	}
 
-	stopUpdater () {
-		clearInterval(this.updaterInterval);
+	stopUpdaters () {
+		clearInterval(this.intervals.deviceData);
+		clearInterval(this.intervals.currentTemperature);
 	}
 
 	async loadDeviceData () {
@@ -159,5 +165,17 @@ export class ControlComponent {
 
 		this.error = "Ocurrio un error al intentar actualizar el limite de temperatura, intentelo mas tarde";
 		this.errorModal.show();
+	}
+
+	async getCurrentTemperature () {
+		let response: Temperature | HttpErrorResponse = await this.controlService.getLastTemeperature();
+
+		if (response instanceof HttpErrorResponse) {
+			this.error = "Ocurrio un error al intentar obtener la temperatura actual";
+			this.errorModal.show();
+			return;
+		}
+
+		this.currentTemperature = Number(response.temperature.toFixed(1));
 	}
 }
