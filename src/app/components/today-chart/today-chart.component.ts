@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import {Chart, registerables} from "chart.js";
+import {Chart} from "chart.js/auto";
+import { TodayChartService } from './today-chart.service';
 
 @Component({
   selector: 'app-today-chart',
@@ -9,51 +11,40 @@ import {Chart, registerables} from "chart.js";
 export class TodayChartComponent {
 	todayChart: any;
 
-	ngOnInit () {
-		Chart.register(...registerables);
+	labels: string[] = [];
+	dataToChart: number[] = [];
+	interval: any;
 
+	constructor (
+		private todayChartService: TodayChartService
+	) { }
+
+	async ngOnInit () {
+		this.createChart();
+		// this.loadChartData();
+		await this.updater();
+	}
+
+	createChart () {
 		this.todayChart = new Chart("todayChart", {
 			type: "line",
 			data: {
-				labels: [
-					"Uno",
-					"Dos",
-					"Tres",
-					"Cuatro",
-					"Cinco",
-					"Seis",
-					"Siete",
-				],
+				labels: this.labels,
 				datasets: [
 					{
-						label: "dataset",
-						data: [65, 59, 80, 81, 56, 55, 40],
-						backgroundColor: [
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 159, 64, 0.2)",
-							"rgba(255, 205, 86, 0.2)",
-							"rgba(75, 192, 192, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(153, 102, 255, 0.2)",
-							"rgba(201, 203, 207, 0.2)",
-						],
-						borderColor: [
-							"rgb(255, 99, 132)",
-							"rgb(255, 159, 64)",
-							"rgb(255, 205, 86)",
-							"rgb(75, 192, 192)",
-							"rgb(54, 162, 235)",
-							"rgb(153, 102, 255)",
-							"rgb(201, 203, 207)",
-						],
-						borderWidth: 1,
+						label: "Temperaturas",
+						data: this.dataToChart,
+						borderColor: "rgb(54, 162, 235)",
+						// backgroundColor: "rgb(75, 192, 192)",
+						// borderWidth: 1,
 					},
 				],
 			},
 			options: {
 				scales: {
 					y: {
-						beginAtZero: true,
+						// beginAtZero: true,
+						max: 50,
 						grid: {
 							color: "#424242"
 						}
@@ -64,7 +55,42 @@ export class TodayChartComponent {
 						}
 					}
 				},
+				aspectRatio: 2.5,
 			},
 		});
+	}
+
+	ngOnDestroy () {
+		this.stopUpdater();
+	}
+
+	async updater () {
+		this.interval = setInterval(async () => await this.loadChartData(), 500);
+	}
+
+	stopUpdater() {
+		clearInterval(this.interval);
+	}
+
+	async loadChartData () {
+		let chartData = await this.todayChartService.getChartData();
+		
+		if (chartData instanceof HttpErrorResponse) {
+			console.log("Problema al cargar los datos de la grafica")
+			return;
+		}
+
+		this.labels = [];
+		this.dataToChart = [];
+		
+		for (let data of chartData) {
+			this.labels.push(new Date(data.createdAt).toLocaleTimeString("es-MX"));
+			this.dataToChart.push(data.temperature);
+		}
+
+		
+		this.todayChart.data.labels = this.labels;
+		this.todayChart.data.datasets[0].data = this.dataToChart;
+		this.todayChart.update();
 	}
 }
