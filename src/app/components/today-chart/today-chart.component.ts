@@ -14,6 +14,8 @@ export class TodayChartComponent {
 	labels: string[] = [];
 	dataToChart: number[] = [];
 	interval: any;
+	maxTemperature: number = 50;
+	minTemperature: number = 0;
 
 	constructor (
 		private todayChartService: TodayChartService
@@ -21,7 +23,6 @@ export class TodayChartComponent {
 
 	async ngOnInit () {
 		this.createChart();
-		// this.loadChartData();
 		await this.updater();
 	}
 
@@ -32,10 +33,11 @@ export class TodayChartComponent {
 				labels: this.labels,
 				datasets: [
 					{
-						label: "Temperaturas",
 						data: this.dataToChart,
 						borderColor: "rgb(54, 162, 235)",
-						backgroundColor: "rgb(75, 192, 192)",
+						pointBackgroundColor: "rgb(75, 192, 192)",
+						backgroundColor: "rgba(54, 162, 235, 0.1)",
+						fill: true,
 						borderWidth: 1.5,
 					},
 				],
@@ -43,8 +45,6 @@ export class TodayChartComponent {
 			options: {
 				scales: {
 					y: {
-						// beginAtZero: true,
-						max: 50,
 						grid: {
 							color: "#424242"
 						}
@@ -55,10 +55,22 @@ export class TodayChartComponent {
 						}
 					}
 				},
-				aspectRatio: 2.5,
+				// aspectRatio: 3.49,
+				aspectRatio: 2.13,
 				plugins: {
 					legend: {
 						display: false
+					},
+					title: {
+						display: true,
+						text: "Registro de temperatura actual",
+						padding: {
+							top: 10,
+							bottom: 30
+						},
+						font: {
+							size: 20
+						}
 					}
 				}
 			},
@@ -85,17 +97,25 @@ export class TodayChartComponent {
 			return;
 		}
 
+		let testLabels = ["--:--:--", "--:--:--", "--:--:--", "--:--:--", "--:--:--"];
+
 		this.labels = [];
 		this.dataToChart = [];
 		
+		this.maxTemperature = this.minTemperature = chartData[0].temperature;
+		// this.minTemperature = chartData[0].temperature;	
 		for (let data of chartData) {
+			if (this.maxTemperature < data.temperature) this.maxTemperature = data.temperature;
+			if (this.minTemperature > data.temperature) this.minTemperature = data.temperature;
 			this.labels.push(new Date(data.createdAt).toLocaleTimeString("es-MX"));
 			this.dataToChart.push(data.temperature);
 		}
 
 		
-		this.todayChart.data.labels = this.labels;
+		this.todayChart.data.labels = this.labels.concat(testLabels);
 		this.todayChart.data.datasets[0].data = this.dataToChart;
+		this.todayChart.options.scales.y.max = Math.floor(this.maxTemperature) + 5;
+		this.todayChart.options.scales.y.min = Math.floor(this.minTemperature) - 5;
 		this.todayChart.update();
 	}
 }
