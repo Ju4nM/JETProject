@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, ViewChild } from "@angular/core";
-import { Chart, registerables } from "chart.js";
 import { ModalComponent } from "../../modal/modal.component";
 import { ControlService } from "./control.service";
 import DataDevices from "./interfaces/deviceData";
@@ -22,14 +21,10 @@ export class ControlComponent {
 	fanStatus!: boolean;
 	currentTemperature!: number;
 
-	todayChart: any;
 	error: string = "";
 	warning: string = "";
 	isLoading: boolean = true;
-	intervals: any = {
-		deviceData: null,
-		currentTemperature: null
-	};
+	updaterInterval: any;
 
 	constructor (
 		private controlService: ControlService
@@ -37,104 +32,24 @@ export class ControlComponent {
 
 	ngOnInit () {
 		this.init();
-
-		Chart.register(...registerables);
-
-		this.todayChart = new Chart("todayChart", {
-			type: "line",
-			data: {
-				labels: [
-					"Uno",
-					"Dos",
-					"Tres",
-					"Cuatro",
-					"Cinco",
-					"Seis",
-					"Siete",
-				],
-				datasets: [
-					{
-						label: "dataset",
-						data: [65, 59, 80, 81, 56, 55, 40],
-						backgroundColor: [
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 159, 64, 0.2)",
-							"rgba(255, 205, 86, 0.2)",
-							"rgba(75, 192, 192, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(153, 102, 255, 0.2)",
-							"rgba(201, 203, 207, 0.2)",
-						],
-						borderColor: [
-							"rgb(255, 99, 132)",
-							"rgb(255, 159, 64)",
-							"rgb(255, 205, 86)",
-							"rgb(75, 192, 192)",
-							"rgb(54, 162, 235)",
-							"rgb(153, 102, 255)",
-							"rgb(201, 203, 207)",
-						],
-						borderWidth: 1,
-					},
-				],
-			},
-			options: {
-				scales: {
-					y: {
-						beginAtZero: true,
-						grid: {
-							color: "#424242"
-						}
-					},
-					x: {
-						grid: {
-							color: "#424242"
-						}
-					}
-				},
-			},
-		});
 	}
 
 	ngOnDestroy () {
-		this.stopUpdaters();
+		this.stopUpdater();
 	}
 
 	async init () {
-		await this.loadDeviceData();
+		await this.loadData();
 		if (this.isLoading) this.isLoading = false;
-		this.updaters();
+		this.updater();
 	}
 
-	updaters () {
-		this.intervals.deviceData = setInterval(async () => await this.loadDeviceData(), 2000);
-		this.intervals.currentTemperature = setInterval(async () => await this.getCurrentTemperature(), 1000);
+	updater () {
+		this.updaterInterval = setInterval(async () => await this.loadData(), 1000);
 	}
 
-	stopUpdaters () {
-		clearInterval(this.intervals.deviceData);
-		clearInterval(this.intervals.currentTemperature);
-	}
-
-	async loadDeviceData () {
-		let deviceData: DataDevices | HttpErrorResponse = await this.controlService.getCurrentDevices();
-
-		if (deviceData instanceof HttpErrorResponse) {
-			this.error = "Ha ocurrido un error al cargar los datos del servidor";
-
-			this.temperatureLimit = 0;
-			this.tempLimitDisplayed = 0;
-			this.fanStatus = false;
-			this.errorModal.show();
-			return;
-		}
-
-		this.fanStatus = deviceData.rele.state;
-		
-		if (this.temperatureLimit === deviceData.sensor.temperatureLimit) return;
-		this.temperatureLimit = deviceData.sensor.temperatureLimit;
-		this.tempLimitDisplayed = this.temperatureLimit;
-		this.currentTemperatureLimit = this.temperatureLimit;
+	stopUpdater () {
+		clearInterval(this.updaterInterval);
 	}
 
 	async toggleFan () {
@@ -167,15 +82,50 @@ export class ControlComponent {
 		this.errorModal.show();
 	}
 
+	
+	async loadData () {
+		let deviceDataLoaded = !(await this.loadDeviceData());
+		let currentTemperatureLoaded = !(await this.getCurrentTemperature());
+		let msg: string;
+
+		if (deviceDataLoaded && currentTemperatureLoaded)
+			msg = "Ha ocurrido un error al intentar cargar los datos del dispositivo y de la temperatura actual";
+		else if(deviceDataLoaded)
+			msg = "Ha ocurrido un error al intentar cargar los datos del dispositivo";
+		else if (currentTemperatureLoaded)
+			msg = "Ha ocurrido un error al cargar la temperatura actual";
+		else return;
+		
+		this.error = msg;
+		this.errorModal.show();
+	}
+
+	// Below functions get the data from the API
+	async loadDeviceData () {
+		let deviceData: DataDevices | HttpErrorResponse = await this.controlService.getCurrentDevices();
+
+		if (deviceData instanceof HttpErrorResponse) {
+			this.temperatureLimit = 0;
+			this.tempLimitDisplayed = 0;
+			this.fanStatus = false;
+			return false;
+		}
+
+		this.fanStatus = deviceData.rele.state;
+
+		if (this.temperatureLimit === deviceData.sensor.temperatureLimit) return true;
+		this.temperatureLimit = deviceData.sensor.temperatureLimit;
+		this.tempLimitDisplayed = this.temperatureLimit;
+		this.currentTemperatureLimit = this.temperatureLimit;
+		return true;
+	}
+
 	async getCurrentTemperature () {
 		let response: Temperature | HttpErrorResponse = await this.controlService.getLastTemeperature();
 
-		if (response instanceof HttpErrorResponse) {
-			this.error = "Ocurrio un error al intentar obtener la temperatura actual";
-			this.errorModal.show();
-			return;
-		}
+		if (response instanceof HttpErrorResponse) return false;
 
 		this.currentTemperature = Number(response.temperature.toFixed(1));
+		return true;
 	}
 }

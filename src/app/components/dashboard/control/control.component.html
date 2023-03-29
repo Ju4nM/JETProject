@@ -15,7 +15,7 @@
         <div class="flex flex-col gap-2 xl:w-full xl:items-center">
             <h1 class = "font-semibold text-xl text-centera xl:text-2xl">Ventilacion</h1>
             <div class = "flex flex-col justify-center gap-3">
-                <p class = "2xl:whitespace-nowrap">Estado: <span class="font-semibold">{{fanStatus ? 'Encendida' : 'Aapgada'}}</span></p>
+                <p class = "2xl:whitespace-nowrap">Estado: <span class="font-semibold">{{fanStatus ? 'Encendida' : 'Aapagada'}}</span></p>
                 <div class = "flex gap-5 items-center">
                     <p class="text-lg">Encender: </p>
                     <label class = "switch" for = "fanState">
@@ -28,7 +28,8 @@
         </div>
     </div>
     <div class = "w-full sm:col-span-2 lg:px-14 lg:box-border xl:px-0">
-        <canvas id = "todayChart">{{ todayChart }}</canvas>
+        <!-- <canvas id = "todayChart">{{ todayChart }}</canvas> -->
+        <app-today-chart></app-today-chart>
     </div>
 </div>
 

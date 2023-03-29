@@ -35,8 +35,8 @@ export class TodayChartComponent {
 						label: "Temperaturas",
 						data: this.dataToChart,
 						borderColor: "rgb(54, 162, 235)",
-						// backgroundColor: "rgb(75, 192, 192)",
-						// borderWidth: 1,
+						backgroundColor: "rgb(75, 192, 192)",
+						borderWidth: 1.5,
 					},
 				],
 			},
@@ -56,6 +56,11 @@ export class TodayChartComponent {
 					}
 				},
 				aspectRatio: 2.5,
+				plugins: {
+					legend: {
+						display: false
+					}
+				}
 			},
 		});
 	}
