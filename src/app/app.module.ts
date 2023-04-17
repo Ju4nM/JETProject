@@ -16,11 +16,13 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
 import { UserCardComponent } from './components/dashboard/users/user-card/user-card.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { HistoryCardComponent } from './components/dashboard/histories/history-card/history-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    HistoryCardComponent,
     TodayChartComponent,
     DashboardComponent,
     UsersComponent,

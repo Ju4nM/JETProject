@@ -4,15 +4,15 @@ import {
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AuthData } from "./interfaces/auth.interface";
-import config from "../../config";
 import { requestManager } from "src/app/utils/helpers";
 import UserAuthorized from "./interfaces/userAuthorized.interface";
+import appConfig from "src/app/appConfig";
 
 @Injectable({
 	providedIn: "root",
 })
 export class AuthService {
-	endPoint: string = config.apiURL;
+	endPoint: string = appConfig.apiURL;
 
 	constructor(private http: HttpClient) {}
 

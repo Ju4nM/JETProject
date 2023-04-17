@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import User from './interfaces/user.interface';
-import config from "../../../config";
 import { requestManager } from 'src/app/utils/helpers';
+import appConfig from 'src/app/appConfig';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  endPoint: string = `${config.apiURL}/users`;
+  endPoint: string = `${appConfig.apiURL}/users`;
 
   constructor (
     private http: HttpClient

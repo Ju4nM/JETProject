@@ -1,17 +1,17 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import config from 'src/app/config';
 import { requestManager } from 'src/app/utils/helpers';
 import DeviceData from './interfaces/deviceData';
 import { Temperature } from './interfaces/temperature.interface';
 import TemperatureLimit from './interfaces/temperatureLimit.interface';
+import appConfig from 'src/app/appConfig';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ControlService {
 
-  endPoint: string = `${config.apiURL}`;
+  endPoint: string = `${appConfig.apiURL}`;
   devicesEndPoint: string = `${this.endPoint}/devices`;
   tempLimitEndPoint: string = `${this.endPoint}/limit-temperatures`;
   tempEndPoint: string = `${this.endPoint}/temperatures/last`;

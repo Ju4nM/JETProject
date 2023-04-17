@@ -5,10 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+body {
+    @apply dark:bg-slate-900;
+}
+/* :root {
     --blue: #319CFF;
     --darkBg: #100E18;
-}
+} */
 
 /* Text field */
 

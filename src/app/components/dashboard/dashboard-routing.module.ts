@@ -6,6 +6,7 @@ import { ChartsComponent } from './charts/charts.component';
 import { ControlComponent } from './control/control.component';
 import { DashboardComponent } from './dashboard.component';
 import { UsersComponent } from './users/users.component';
+import { HistoriesComponent } from './histories/histories.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: "users", component: UsersComponent, canActivate: [AdminGuard] },
       { path: "about", component: AboutComponent },
       { path: "charts", component: ChartsComponent },
+      { path: "history", component: HistoriesComponent, canActivate: [AdminGuard]},
       { path: "**", redirectTo: "about" },
     ]
   },

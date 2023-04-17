@@ -18,7 +18,7 @@ export class UsersComponent {
   userData: User[] = [];
   isLoading: boolean = true;
   @ViewChild("formErrorsModal") modalErrors!: ModalComponent;
-  
+
   // To do an action like delete or update any user
   actionError: string = "";
   @ViewChild("modalConfirm") modalConfirm!: ModalComponent;
@@ -50,7 +50,7 @@ export class UsersComponent {
     private userService: UsersService,
     private authService: AuthService
   ) {}
-  
+
   async ngOnInit() {
     await this.loadData();
   }
@@ -100,11 +100,11 @@ export class UsersComponent {
    * Check if the both passwords are equals, if both passwords aren't equals then show up the modal with the error
    * else, show up the modal with the form for register an user
    * @param { NgForm } registrationForm - Form pulled from the DOM
-   * @returns 
+   * @returns
    */
   async registerUser (registrationForm: NgForm) {
     let { password, passwordRepeated, email } = registrationForm.value;
-    
+
     if (password !== passwordRepeated) {
       this.registrationErrors = ['Las contraseñas no son iguales'];
       this.modalErrors.show();
@@ -112,7 +112,7 @@ export class UsersComponent {
     }
 
     if (email === "") delete registrationForm.value.email;
-    
+
     this.isLoading = true;
     let response: User | HttpErrorResponse = await this.userService.registerUser(registrationForm.value);
 
@@ -125,7 +125,7 @@ export class UsersComponent {
 
     if (this.findMode) this.endFinding();
   }
-  
+
   deleteUser = async (id: string) => {
     await this.confirmIdentity("No se ha podido borrar el registro", async () => {
       this.isLoading = true;
@@ -172,7 +172,7 @@ export class UsersComponent {
    * else, it will execute the function with response pased as a parameter
    * @param {T | HttpErrorResponse} response - Response received from the web api
    * @param responseFunction - Does something using the response as a parameter
-   * 
+   *
    */
   async responseManager<T> (response: T | HttpErrorResponse, responseFunction: any ) {
     if (!(response instanceof HttpErrorResponse)) {
@@ -180,10 +180,10 @@ export class UsersComponent {
       return;
     }
     if (this.isLoading) this.isLoading = false;
-    
-    this.registrationErrors = 
+
+    this.registrationErrors =
       response.status == 400 || response.status == 409
-        ? response.error.message 
+        ? response.error.message
         : ["Error en el servidor"];
     this.modalErrors.show();
   }
@@ -191,9 +191,9 @@ export class UsersComponent {
   /**
    * The only user can delete or update an user is the admin, therefore, this function shows a modal to confirm
    * the user identity
-   * @param errorMessage 
-   * @param resultHandler 
-   * @returns 
+   * @param errorMessage
+   * @param resultHandler
+   * @returns
    */
   async confirmIdentity (errorMessage: string, resultHandler: any) {
     let {status, value}: {status: boolean, value: string | null} = await this.modalConfirm.prompt(
@@ -203,7 +203,7 @@ export class UsersComponent {
     );
 
     if (!status || value == null) return;
-    
+
     let authCredentials: boolean = await this.authService.authConfirm(value);
 
     if (!authCredentials) {

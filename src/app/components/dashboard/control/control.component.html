@@ -7,7 +7,7 @@
         <div class="flex flex-col gap-2 xl:w-full xl:items-center">
             <h1 class = "font-semibold text-xl text-center xl:text-2xl">Control de temperatura</h1>
             <div class = "flex flex-col gap-3">
-                <p>Temperatura actual: <span class = "font-semibold">{{tempLimitDisplayed}}°</span></p>
+                <p>Temperatura limite actual: <span class = "font-semibold">{{tempLimitDisplayed}}°</span></p>
                 <input type = "number" value = "{{temperatureLimit}}" class = "text-field" [(ngModel)]="currentTemperatureLimit">
                 <button class = "button button-success" (click)="updateTemperatureLimit()">Actualizar</button>
             </div>

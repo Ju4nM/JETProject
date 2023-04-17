@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {Chart} from "chart.js/auto";
+import zoomPlugin  from 'chartjs-plugin-zoom';
 import { TodayChartService } from './today-chart.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class TodayChartComponent {
 	) { }
 
 	async ngOnInit () {
+		Chart.register(zoomPlugin);
 		this.createChart();
 		await this.updater();
 	}
@@ -70,6 +72,17 @@ export class TodayChartComponent {
 						},
 						font: {
 							size: 20
+						}
+					},
+					zoom: {
+						zoom: {
+							wheel: {
+								enabled: true
+							},
+							pinch: {
+								enabled: true
+							},
+							mode: "xy"
 						}
 					}
 				}

@@ -1,0 +1,13 @@
+<div class = "bg-blue-600 p-3 rounded-md cursor-pointer hover:bg-blue-700 transition-all select-none" (click)="showDetails(data)">
+	<div class = "mb-2">
+		<p class="font-semibold">{{
+			data.limitTemperature != null ? "Actualizo el limite de temperatura" :
+			data.state != null ? (data.state ? "Encendio" : "Apago") + " la ventilacion" : ""
+		}}</p>
+	</div>
+	<div class = "flex justify-between">
+		<div>
+			<p><span class = "font-semibold">Responsable: </span>{{data.user?.userName ?? "[Eliminado]"}}</p>
+		</div>
+	</div>
+</div>

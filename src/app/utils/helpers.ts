@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http"
 import { firstValueFrom, Observable } from "rxjs"
-import UserAuthorized from "../services/auth/interfaces/userAuthorized.interface";
 
 /**
  * This function was created to convert the Observable that the http.something (http.something is an example) returns, to Promise,

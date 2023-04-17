@@ -1,15 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import config from 'src/app/config';
 import { requestManager } from 'src/app/utils/helpers';
 import TemperatureToChart from './interfaces/temperatureToChart.interface';
+import appConfig from 'src/app/appConfig';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodayChartService {
 
-  endPoint = `${config.apiURL}/temperatures/dataToChart`;
+  endPoint = `${appConfig.apiURL}/temperatures/dataToChart`;
 
   constructor(
     private http: HttpClient

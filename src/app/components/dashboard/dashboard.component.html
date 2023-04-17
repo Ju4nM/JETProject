@@ -13,7 +13,7 @@
                 <button (click)="changeSection(0)" class="section section-inactive" routerLink="control" routerLinkActive="section-active">Control</button>
                 <button (click)="changeSection(1)" class="section section-inactive {{userInfo.userType ? '' : 'hidden'}}" routerLink="users" routerLinkActive="section-active">Usuarios</button>
                 <button (click)="changeSection(2)" class="section section-inactive" routerLink="charts" routerLinkActive="section-active">Graficas</button>
-                <!-- <button (click)="changeSection(3)" class="{{ sections[3].styles }}">Historiales</button> -->
+                <button (click)="changeSection(3)" class="section section-inactive" routerLink="history" routerLinkActive="section-active">Historial</button>
                 <button (click)="changeSection(4)" class="section section-inactive" routerLink="about" routerLinkActive="section-active">Acerca de</button>
             </div>
             <div class = "relative">

@@ -1,1 +1,33 @@
-<p>histories works!</p>
+
+<div class = "grid grid-cols-1 p-3 gap-5 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-4">
+	<app-history-card *ngFor="let record of histories" [data]="record" [showDetails]="(showDetailRecord)"></app-history-card>
+</div>
+
+<app-modal [title]="'Detalles'" #modalDetails>
+	<div class="text-lg">
+		<ng-template [ngIf]="recordToShow.changeType == 'toggledFan'">
+			<div class="flex gap-3">
+				<span class="font-semibold">Estado al que se cambio: </span>
+				<span>{{recordToShow.state ? "Encendido" : "Apagado"}}</span>
+			</div>
+		</ng-template>
+		<ng-template [ngIf]="recordToShow.changeType == 'limitUpdated'">
+			<div class="flex gap-3">
+				<span class="font-semibold">Nuevo limite de temperatura: </span>
+				<span>{{recordToShow.limitTemperature?.limitTemperature}}°</span>
+			</div>
+		</ng-template>
+		<div class="flex gap-3">
+			<span class="font-semibold">Responsable del cambio: </span>
+			<span>{{recordToShow.user !== null ? recordToShow.user?.userName : "[Usuario eliminado]"}}</span>
+		</div>
+		<div class="flex gap-3">
+			<span class="font-semibold">Fecha en la que se realizo: </span>
+			<span>{{currentRecordDate}}</span>
+		</div>
+	</div>
+</app-modal>
+
+<app-modal [title]="'Error'" #modalError>
+	<p>{{error}}</p>
+</app-modal>
