@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import Section from "./interfaces/Section.interface";
-import States from "./interfaces/States.interface";
+import Section from "./interfaces/Section.interface.ts";
+import States from "./interfaces/States.interface.ts";
 
 @Component({
     selector: 'app-dashboard',
